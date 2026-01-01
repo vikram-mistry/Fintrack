@@ -919,7 +919,11 @@
       document.getElementById("editTxId").value = tx.id;
       document.getElementById("editTxType").value = tx.type;
       document.getElementById("editTxAmount").value = tx.amount;
+
+      // Date logic for different fields
       document.getElementById("editTxDate").value = tx.date;
+      document.getElementById("editTxTransferDate").value = tx.date;
+
       document.getElementById("editTxNote").value = tx.note || "";
 
       updateAccountDropdowns(); // Refresh options
@@ -971,17 +975,18 @@
          ...state.transactions[idx],
          type: type,
          amount: parseFloat(document.getElementById("editTxAmount").value),
-         date: document.getElementById("editTxDate").value,
          note: document.getElementById("editTxNote").value,
          isRecurring: editTxIsRecurring.checked
       };
 
       if(type === 'transfer') {
+         updated.date = document.getElementById("editTxTransferDate").value;
          updated.fromAccount = document.getElementById("editTxFromAccount").value;
          updated.toAccount = document.getElementById("editTxToAccount").value;
          updated.account = updated.fromAccount;
          updated.category = "Transfer";
       } else {
+         updated.date = document.getElementById("editTxDate").value;
          updated.account = document.getElementById("editTxAccount").value;
          updated.category = document.getElementById("editTxCategory").value;
       }
@@ -1033,16 +1038,6 @@
       recalcAccounts(); saveState(); renderAll(); deleteModal.classList.add("hidden");
     };
 
-    function generateAppIcon() {
-      const canvas = document.createElement('canvas'); canvas.width = 180; canvas.height = 180;
-      const ctx = canvas.getContext('2d');
-      const bg = ctx.createLinearGradient(0, 0, 180, 180); bg.addColorStop(0, '#0f172a'); bg.addColorStop(1, '#090918');
-      ctx.fillStyle = bg; ctx.fillRect(0,0,180,180);
-      ctx.font = 'bold 90px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#38bdf8'; ctx.fillText('₹', 90, 90);
-      const link = document.getElementById('appIcon'); if (link) link.href = canvas.toDataURL('image/png');
-    }
-
-    generateAppIcon();
     updateCategoryDropdown("expense");
     updateFormForType("expense");
     recalcAccounts();

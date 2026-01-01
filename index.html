@@ -12,7 +12,8 @@
   <meta name="theme-color" content="#020617" id="metaThemeColor" />
   
   <!-- App Icon -->
-  <link rel="apple-touch-icon" id="appIcon" href="" />
+  <link rel="apple-touch-icon" href="icon.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
   
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -444,9 +445,15 @@
           <label class="text-xs text-slate-300 mb-1 block">Category</label>
           <select id="editTxCategory" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
         </div>
-        <div id="editTxRegularAccountField">
-          <label class="text-xs text-slate-300 mb-1 block">Account</label>
-          <select id="editTxAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+        <div id="editTxRegularAccountField" class="flex gap-3">
+          <div class="flex-1 min-w-0">
+             <label class="text-xs text-slate-300 mb-1 block">Account</label>
+             <select id="editTxAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+          </div>
+          <div class="flex-1 min-w-0">
+             <label class="text-xs text-slate-300 mb-1 block">Date</label>
+             <input id="editTxDate" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          </div>
         </div>
         <div id="editTxTransferFields" class="hidden space-y-3">
           <div>
@@ -457,10 +464,10 @@
             <label class="text-xs text-slate-300 mb-1 block">To Account</label>
             <select id="editTxToAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
-        </div>
-        <div>
-          <label class="text-xs text-slate-300 mb-1 block">Date</label>
-          <input id="editTxDate" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          <div>
+            <label class="text-xs text-slate-300 mb-1 block">Date</label>
+            <input id="editTxTransferDate" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          </div>
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Note</label>
