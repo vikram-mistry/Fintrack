@@ -394,17 +394,21 @@
     function createTransactionRow(tx, showActions = false) {
       const row = document.createElement("div");
       row.className = "glass-soft rounded-2xl px-3 py-2 flex items-center justify-between text-sm";
-      const displayTitle = tx.note && tx.note.trim() ? tx.note.trim() : tx.category;
+      const hasNote = tx.note && tx.note.trim();
+      const displayTitle = hasNote ? tx.note.trim() : tx.category;
       let accountText = tx.account;
       if (tx.type === "transfer") accountText = `${tx.fromAccount} → ${tx.toAccount}`;
 
       const amtClass = tx.type === "transfer" ? "text-sky-300" : (tx.type === "expense" ? "text-rose-300" : "text-emerald-300");
       const amtPrefix = tx.type === "expense" ? "-" : (tx.type === "income" ? "+" : "");
 
+      let subtitle = `${new Date(tx.date).toLocaleDateString(undefined, {month:'short', day:'numeric'})} • ${accountText}`;
+      if (hasNote) subtitle += ` • ${tx.category}`;
+
       row.innerHTML = `
         <div class="flex flex-col flex-1 min-w-0">
           <span class="text-sm font-medium truncate text-slate-200">${displayTitle}</span>
-          <span class="text-[11px] text-slate-400">${new Date(tx.date).toLocaleDateString(undefined, {month:'short', day:'numeric'})} • ${accountText}</span>
+          <span class="text-[11px] text-slate-400">${subtitle}</span>
         </div>
         <div class="flex items-center gap-2">
           <span class="amount-display font-semibold ${amtClass}">${amtPrefix}${currency(tx.amount)}</span>
@@ -527,8 +531,12 @@
            const isPaid = state.reminderPayments[tx.id] && state.reminderPayments[tx.id][monthKey];
            const div = document.createElement("div");
            div.className = "glass-soft rounded-2xl px-3 py-2 flex items-center justify-between";
-           const title = tx.note && tx.note.trim() ? tx.note.trim() : tx.category;
-           div.innerHTML = `<div class="flex flex-col"><span class="text-sm font-medium text-slate-200">${title}</span><span class="text-[11px] text-slate-400">Day ${tx.dueDay} • ${currency(tx.amount)}</span></div><div class="flex items-center gap-2"><span class="text-[10px] px-2 py-0.5 rounded-full border ${isPaid ? 'border-emerald-400/40 text-emerald-300' : 'border-amber-400/40 text-amber-300'}">${isPaid ? 'Paid' : 'Pending'}</span><button onclick="event.stopPropagation(); openDeleteModal('${tx.id}', 'transaction')" class="p-1 text-slate-400">🗑️</button></div>`;
+           const hasNote = tx.note && tx.note.trim();
+           const title = hasNote ? tx.note.trim() : tx.category;
+           let subtitle = `Day ${tx.dueDay} • ${currency(tx.amount)}`;
+           if(hasNote) subtitle += ` • ${tx.category}`;
+
+           div.innerHTML = `<div class="flex flex-col"><span class="text-sm font-medium text-slate-200">${title}</span><span class="text-[11px] text-slate-400">${subtitle}</span></div><div class="flex items-center gap-2"><span class="text-[10px] px-2 py-0.5 rounded-full border ${isPaid ? 'border-emerald-400/40 text-emerald-300' : 'border-amber-400/40 text-amber-300'}">${isPaid ? 'Paid' : 'Pending'}</span><button onclick="event.stopPropagation(); openDeleteModal('${tx.id}', 'transaction')" class="p-1 text-slate-400">🗑️</button></div>`;
            list.appendChild(div);
         });
       }
