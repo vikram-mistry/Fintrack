@@ -677,13 +677,6 @@
     const typeToggles = document.querySelectorAll(".typeToggle");
     let currentType = "expense";
 
-    function updateCategoryDropdown(type) {
-      const categoryInput = document.getElementById("categoryInput");
-      categoryInput.innerHTML = "";
-      let categories = (type === "expense") ? expenseCategories : (type === "income") ? incomeCategories : transferCategories;
-      categories.forEach(cat => { const opt = document.createElement("option"); opt.value = cat; opt.textContent = cat; categoryInput.appendChild(opt); });
-    }
-
     function updateFormForType(type) {
       document.getElementById("categoryField").classList.toggle("hidden", type === "transfer");
       document.getElementById("regularAccountField").classList.toggle("hidden", type === "transfer");
@@ -815,7 +808,11 @@
 
     // Modal Actions
     const addAccountModal = document.getElementById("addAccountModal");
-    document.getElementById("addAccountBtn").onclick = () => addAccountModal.classList.remove("hidden");
+    document.getElementById("addAccountBtn").onclick = () => {
+       document.getElementById("addAccountForm").reset();
+       document.getElementById("creditCardDueDateField").classList.add("hidden");
+       addAccountModal.classList.remove("hidden");
+    };
     document.getElementById("cancelAddAccount").onclick = () => addAccountModal.classList.add("hidden");
     document.getElementById("addAccountForm").onsubmit = (e) => {
       e.preventDefault();
@@ -908,7 +905,7 @@
        if(type !== 'transfer') {
           const catSelect = document.getElementById("editTxCategory");
           catSelect.innerHTML = "";
-          let cats = (type === "expense") ? expenseCategories : incomeCategories;
+          const cats = Object.keys(state.categories).filter(c => state.categories[c].type === type).sort();
           cats.forEach(c => { const o = document.createElement("option"); o.value = c; o.textContent = c; catSelect.appendChild(o); });
        }
     });
@@ -940,7 +937,10 @@
         // Re-populate category dropdown based on type
         const catSelect = document.getElementById("editTxCategory");
         catSelect.innerHTML = "";
-        let cats = (tx.type === "expense") ? expenseCategories : (tx.type === "income") ? incomeCategories : transferCategories;
+        let cats;
+        if(tx.type === 'transfer') cats = ['Transfer'];
+        else cats = Object.keys(state.categories).filter(c => state.categories[c].type === tx.type).sort();
+
         cats.forEach(c => { const o = document.createElement("option"); o.value = c; o.textContent = c; catSelect.appendChild(o); });
         catSelect.value = tx.category;
       }
