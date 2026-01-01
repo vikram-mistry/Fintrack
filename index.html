@@ -46,7 +46,13 @@
     
     <!-- HOME -->
     <section data-screen="home" class="space-y-4">
-      <div id="homeAlertsSection" class="space-y-2"></div>
+      <div id="alertsContainer" class="hidden space-y-2">
+        <button id="alertsToggleBtn" class="w-full flex items-center justify-between glass-soft rounded-2xl px-4 py-3 text-xs text-slate-300">
+           <span id="alertsSummaryText">No alerts</span>
+           <span id="alertsToggleIcon" class="transform transition-transform">▼</span>
+        </button>
+        <div id="homeAlertsSection" class="space-y-2 hidden"></div>
+      </div>
       
       <div class="relative group">
         <div class="absolute inset-0 blur-2xl opacity-60 bg-gradient-to-tr from-emerald-500/30 via-sky-500/30 to-indigo-500/40"></div>
@@ -185,12 +191,12 @@
             <select id="categoryInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
 
-          <div id="regularAccountField" class="grid grid-cols-2 gap-3">
-            <div>
+          <div id="regularAccountField" class="flex gap-3">
+            <div class="flex-1 min-w-0">
               <label class="text-xs text-slate-300 mb-1 block">Account</label>
               <select id="accountInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
             </div>
-            <div>
+            <div class="flex-1 min-w-0">
               <label class="text-xs text-slate-300 mb-1 block">Date</label>
               <input id="dateInput" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
             </div>
@@ -291,8 +297,13 @@
         </div>
         <div class="glass rounded-3xl p-3">
           <div class="flex items-center justify-between mb-3">
-            <p class="text-sm font-medium">Category Budgets</p>
-            <span class="text-[10px] text-slate-400">Set limits per category</span>
+             <div>
+                <p class="text-sm font-medium">Categories</p>
+                <span class="text-[10px] text-slate-400">Manage categories & budgets</span>
+             </div>
+             <button id="addCategoryBtn" class="px-2 py-1 rounded-full glass-soft border border-sky-400/40 text-[10px] text-sky-300">
+                + Add
+             </button>
           </div>
           <div id="categoryBudgetsList" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
         </div>
@@ -500,6 +511,38 @@
         <div class="flex gap-3 pt-2">
           <button type="button" id="cancelEditBudget" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
           <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add/Edit Category Modal -->
+  <div id="categoryModal" class="modal-overlay hidden">
+    <div class="glass modal-content w-full max-w-sm rounded-3xl p-5 border border-slate-300/20">
+      <h3 id="categoryModalTitle" class="text-lg font-semibold mb-4 text-slate-100">Add Category</h3>
+      <form id="categoryForm" class="space-y-3">
+        <input type="hidden" id="categoryOldName" />
+        <div>
+           <label class="text-xs text-slate-300 mb-1 block">Name</label>
+           <input id="categoryNameInput" type="text" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200" required />
+        </div>
+        <div>
+           <label class="text-xs text-slate-300 mb-1 block">Type</label>
+           <select id="categoryTypeInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
+           </select>
+        </div>
+        <div>
+           <label class="text-xs text-slate-300 mb-1 block">Monthly Budget Limit</label>
+           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
+             <span class="text-slate-500 text-xs">₹</span>
+             <input id="categoryBudgetInput" type="number" step="100" class="bg-transparent flex-1 outline-none text-sm text-slate-200" value="0" />
+           </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+           <button type="button" id="cancelCategoryModal" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+           <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
         </div>
       </form>
     </div>

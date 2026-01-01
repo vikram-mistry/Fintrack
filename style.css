@@ -43,6 +43,33 @@
       scroll-padding-bottom: calc(var(--nav-height) + 20px);
     }
 
+    /* Category List Styles */
+    .category-row {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       padding: 8px 0;
+       border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+    .category-row:last-child {
+       border-bottom: none;
+    }
+    .category-row .actions {
+       display: flex;
+       gap: 8px;
+    }
+    .category-row button {
+       padding: 4px;
+       color: #94a3b8;
+       transition: color 0.2s;
+    }
+    .category-row button:hover {
+       color: #38bdf8;
+    }
+    .category-row button.delete-btn:hover {
+       color: #f43f5e;
+    }
+
     /* --- THEME STYLES --- */
     [data-theme="light"] body {
       background: radial-gradient(circle at top, #e0f2fe 0, #f0f9ff 55%, #ffffff 100%);
@@ -115,6 +142,27 @@
     [data-theme="light"] .text-emerald-200 { color: #065f46 !important; } /* Alert text */
     [data-theme="light"] .text-amber-200 { color: #92400e !important; }
     [data-theme="light"] .text-rose-200 { color: #9f1239 !important; } /* CC Alert title */
+
+    /* Tab Toggle Visibility in Light Mode */
+    [data-theme="light"] .typeToggle {
+        color: #1e293b !important; /* Dark text for visibility */
+        border-color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .typeToggle.text-rose-50 {
+        color: #9f1239 !important; /* Dark Rose text for active Expense */
+        background-color: #ffe4e6 !important; /* Light Rose bg */
+        border-color: #fda4af !important;
+    }
+    [data-theme="light"] .typeToggle.text-emerald-50 {
+        color: #065f46 !important; /* Dark Emerald text for active Income */
+        background-color: #d1fae5 !important; /* Light Emerald bg */
+        border-color: #6ee7b7 !important;
+    }
+    [data-theme="light"] .typeToggle.text-sky-50 {
+        color: #075985 !important; /* Dark Sky text for active Transfer */
+        background-color: #e0f2fe !important; /* Light Sky bg */
+        border-color: #7dd3fc !important;
+    }
 
     /* Input Fields in Light Mode */
     [data-theme="light"] .bg-slate-950\/70 {

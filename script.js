@@ -242,9 +242,22 @@
        }
     }
 
+    // Collapsible Alerts Logic
+    const alertsContainer = document.getElementById("alertsContainer");
+    const alertsToggleBtn = document.getElementById("alertsToggleBtn");
+    const homeAlertsSection = document.getElementById("homeAlertsSection");
+    const alertsSummaryText = document.getElementById("alertsSummaryText");
+    const alertsToggleIcon = document.getElementById("alertsToggleIcon");
+
+    alertsToggleBtn.onclick = () => {
+       const isHidden = homeAlertsSection.classList.contains("hidden");
+       homeAlertsSection.classList.toggle("hidden", !isHidden);
+       alertsToggleIcon.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
+    };
+
     function renderHome() {
-      const homeAlertsSection = document.getElementById("homeAlertsSection");
       homeAlertsSection.innerHTML = "";
+      let alertCount = 0;
 
       // Recurring Dues
       const recurringTx = state.transactions.filter(tx => tx.isRecurring && tx.dueDay);
@@ -252,7 +265,11 @@
         const monthKey = `${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}`;
         const isPaid = state.reminderPayments[reminder.id] && state.reminderPayments[reminder.id][monthKey];
 
+        // Logic: Show alert if due within 7 days.
+        // Also handling 'past due' if not paid in current month?
+        // For simplicity, sticking to isDueSoon (within 7 days upcoming).
         if (isDueSoon(reminder.dueDay) && !isPaid) {
+          alertCount++;
           const alert = document.createElement("div");
           const isIncome = reminder.type === "income";
           alert.className = isIncome
@@ -288,11 +305,10 @@
       Object.keys(state.accounts).forEach(accName => {
          if(state.accountTypes[accName] === 'credit') {
             const balance = state.accounts[accName];
-            // In this app, for Credit Cards: Positive balance = Debt/Outstanding.
-            // Negative/Zero = Paid.
             if(balance > 0) {
                const dueDay = state.accountDueDays[accName];
                if(dueDay && isDueSoon(dueDay)) {
+                  alertCount++;
                   const alert = document.createElement("div");
                   alert.className = "glass-soft rounded-2xl p-3 flex items-center justify-between border border-rose-400/30";
                   alert.innerHTML = `
@@ -305,7 +321,6 @@
                   payBtn.className = "px-3 py-1.5 rounded-full text-xs font-medium bg-gradient-to-r from-sky-400 to-indigo-500 text-white shadow-md";
                   payBtn.textContent = "Pay Bill";
                   payBtn.onclick = () => {
-                     // Open Add Entry pre-filled for Transfer
                      const typeToggles = document.querySelectorAll(".typeToggle");
                      typeToggles[2].click(); // Click Transfer
                      document.getElementById("toAccountInput").value = accName;
@@ -319,6 +334,20 @@
             }
          }
       });
+
+      // Update Alerts UI
+      if (alertCount > 0) {
+         alertsContainer.classList.remove("hidden");
+         alertsSummaryText.textContent = `${alertCount} payment${alertCount > 1 ? 's' : ''} due in next 7 days`;
+         alertsSummaryText.className = "text-amber-300 font-medium";
+      } else {
+         alertsContainer.classList.remove("hidden");
+         alertsSummaryText.textContent = "No payments due in next 7 days";
+         alertsSummaryText.className = "text-emerald-300 font-medium";
+         // Auto-collapse if empty
+         homeAlertsSection.classList.add("hidden");
+         alertsToggleIcon.style.transform = "rotate(0deg)";
+      }
 
       const { startDate, endDate } = getMonthCycleDates();
       document.getElementById("dateCycleLabel").textContent = `${formatDateShort(startDate)} - ${formatDateShort(endDate)}`;
@@ -498,7 +527,8 @@
            const isPaid = state.reminderPayments[tx.id] && state.reminderPayments[tx.id][monthKey];
            const div = document.createElement("div");
            div.className = "glass-soft rounded-2xl px-3 py-2 flex items-center justify-between";
-           div.innerHTML = `<div class="flex flex-col"><span class="text-sm font-medium text-slate-200">${tx.category}</span><span class="text-[11px] text-slate-400">Day ${tx.dueDay} • ${currency(tx.amount)}</span></div><div class="flex items-center gap-2"><span class="text-[10px] px-2 py-0.5 rounded-full border ${isPaid ? 'border-emerald-400/40 text-emerald-300' : 'border-amber-400/40 text-amber-300'}">${isPaid ? 'Paid' : 'Pending'}</span><button onclick="event.stopPropagation(); openDeleteModal('${tx.id}', 'transaction')" class="p-1 text-slate-400">🗑️</button></div>`;
+           const title = tx.note && tx.note.trim() ? tx.note.trim() : tx.category;
+           div.innerHTML = `<div class="flex flex-col"><span class="text-sm font-medium text-slate-200">${title}</span><span class="text-[11px] text-slate-400">Day ${tx.dueDay} • ${currency(tx.amount)}</span></div><div class="flex items-center gap-2"><span class="text-[10px] px-2 py-0.5 rounded-full border ${isPaid ? 'border-emerald-400/40 text-emerald-300' : 'border-amber-400/40 text-amber-300'}">${isPaid ? 'Paid' : 'Pending'}</span><button onclick="event.stopPropagation(); openDeleteModal('${tx.id}', 'transaction')" class="p-1 text-slate-400">🗑️</button></div>`;
            list.appendChild(div);
         });
       }
@@ -508,15 +538,134 @@
     function renderCategoryBudgets() {
        const list = document.getElementById("categoryBudgetsList");
        list.innerHTML = "";
-       for(const cat in state.categories) {
-         if(state.categories[cat].type === 'neutral') continue;
-         const row = document.createElement("div");
-         row.className = "flex justify-between items-center py-2 border-b border-slate-700/50";
-         row.innerHTML = `<span class="text-xs font-medium text-slate-300">${cat}</span><input type="number" class="w-20 bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-1 text-xs text-right text-slate-200" value="${state.categories[cat].budget}" onchange="updateCatBudget('${cat}', this.value)" />`;
-         list.appendChild(row);
+       // Sort: Expenses first, then Income. Alphabetical within.
+       const cats = Object.keys(state.categories).filter(c => state.categories[c].type !== 'neutral');
+       cats.sort((a,b) => {
+          if(state.categories[a].type !== state.categories[b].type) return state.categories[a].type === 'expense' ? -1 : 1;
+          return a.localeCompare(b);
+       });
+
+       if(cats.length === 0) {
+          list.innerHTML = `<p class="text-xs text-slate-400 text-center py-2">No categories found.</p>`;
+          return;
        }
+
+       cats.forEach(cat => {
+         const data = state.categories[cat];
+         const row = document.createElement("div");
+         row.className = "category-row";
+
+         // Type Indicator Color
+         const typeColor = data.type === 'expense' ? 'text-rose-400' : 'text-emerald-400';
+
+         row.innerHTML = `
+           <div class="flex items-center gap-2 overflow-hidden">
+             <span class="text-[10px] ${typeColor}">●</span>
+             <span class="text-xs font-medium text-slate-200 truncate">${cat}</span>
+           </div>
+           <div class="flex items-center gap-3">
+             <input type="number" placeholder="Budget" class="w-20 bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-1 text-xs text-right text-slate-200" value="${data.budget}" onchange="updateCatBudget('${cat}', this.value)" />
+             <div class="actions">
+               <button onclick="openCategoryModal('${cat}')" class="text-xs">✏️</button>
+               <button onclick="deleteCategory('${cat}')" class="text-xs delete-btn">🗑️</button>
+             </div>
+           </div>
+         `;
+         list.appendChild(row);
+       });
     }
-    window.updateCatBudget = (cat, val) => { state.categories[cat].budget = parseFloat(val) || 0; saveState(); renderBudget(); };
+    window.updateCatBudget = (cat, val) => {
+       if(state.categories[cat]) {
+          state.categories[cat].budget = parseFloat(val) || 0;
+          saveState();
+          renderBudget();
+       }
+    };
+
+    // Category Modal Logic
+    const categoryModal = document.getElementById("categoryModal");
+    const categoryForm = document.getElementById("categoryForm");
+
+    document.getElementById("addCategoryBtn").onclick = () => openCategoryModal();
+    document.getElementById("cancelCategoryModal").onclick = () => categoryModal.classList.add("hidden");
+
+    window.openCategoryModal = (name = null) => {
+       const isEdit = !!name;
+       document.getElementById("categoryModalTitle").textContent = isEdit ? "Edit Category" : "Add Category";
+       document.getElementById("categoryOldName").value = name || "";
+       document.getElementById("categoryNameInput").value = name || "";
+
+       if(isEdit && state.categories[name]) {
+          document.getElementById("categoryTypeInput").value = state.categories[name].type;
+          document.getElementById("categoryBudgetInput").value = state.categories[name].budget;
+       } else {
+          document.getElementById("categoryTypeInput").value = "expense";
+          document.getElementById("categoryBudgetInput").value = 0;
+       }
+
+       categoryModal.classList.remove("hidden");
+    };
+
+    categoryForm.onsubmit = (e) => {
+       e.preventDefault();
+       const oldName = document.getElementById("categoryOldName").value;
+       const newName = document.getElementById("categoryNameInput").value.trim();
+       const type = document.getElementById("categoryTypeInput").value;
+       const budget = parseFloat(document.getElementById("categoryBudgetInput").value) || 0;
+
+       if(!newName) return;
+
+       if(oldName && newName !== oldName) {
+          // Rename: Check if exists
+          if(state.categories[newName]) return alert("Category already exists!");
+
+          // Migrate transactions
+          state.transactions.forEach(tx => {
+             if(tx.category === oldName) tx.category = newName;
+          });
+
+          delete state.categories[oldName];
+       } else if (!oldName && state.categories[newName]) {
+          return alert("Category already exists!");
+       }
+
+       state.categories[newName] = { type, budget };
+
+       // Update global lists
+       if(type === 'expense' && !expenseCategories.includes(newName)) expenseCategories.push(newName);
+       if(type === 'income' && !incomeCategories.includes(newName)) incomeCategories.push(newName);
+
+       // Remove from old list if type changed?
+       // Complex to sync global arrays if type changes.
+       // Simplified: Rebuild global arrays from state.categories on load/render?
+       // For now, just push.
+
+       saveState();
+       renderAll(); // Will update dropdowns too
+       categoryModal.classList.add("hidden");
+    };
+
+    window.deleteCategory = (name) => {
+       if(confirm(`Delete category "${name}"? Transactions will keep the name but it won't appear in lists.`)) {
+          delete state.categories[name];
+          saveState();
+          renderAll();
+       }
+    };
+
+    // Fix: We need to ensure dropdowns use state.categories, not just the hardcoded arrays.
+    // Replace the hardcoded arrays logic in updateCategoryDropdown
+
+    function updateCategoryDropdown(type) {
+      const categoryInput = document.getElementById("categoryInput");
+      categoryInput.innerHTML = "";
+
+      // Filter from state.categories
+      const cats = Object.keys(state.categories).filter(c => state.categories[c].type === type);
+      cats.sort();
+
+      cats.forEach(cat => { const opt = document.createElement("option"); opt.value = cat; opt.textContent = cat; categoryInput.appendChild(opt); });
+    }
 
     function renderAll() {
       renderHome(); renderLogs(); renderBudget(); renderAccounts(); renderRecurring(); renderCategoryBudgets(); renderArchive();
@@ -562,6 +711,41 @@
     document.getElementById("dateInput").valueAsDate = new Date();
     document.getElementById("transferDateInput").valueAsDate = new Date();
 
+    // Helper to clear form
+    function clearEntryForm() {
+       entryForm.reset();
+       currentType = "expense";
+       typeToggles[0].click(); // Reset to Expense tab styling
+       document.getElementById("dateInput").valueAsDate = new Date();
+       document.getElementById("transferDateInput").valueAsDate = new Date();
+       recurringFields.classList.add("hidden");
+    }
+
+    // Hook into screen switching to clear form when leaving 'add' screen
+    // We modify showScreen slightly or add a listener to tab buttons
+    // The original showScreen didn't provide a hook, so we add a check in the tab click listeners
+    // But showScreen is called by multiple things. Let's add an observer or just patch showScreen.
+
+    // Patching showScreen logic by overriding existing click listeners is hard without rewriting them.
+    // Instead, let's just make sure when we LEAVE 'add', we clear.
+    // We can do this by checking the button clicks.
+
+    // Existing: tabButtons.forEach(...)
+    // Let's add a specific listener to navigation buttons that are NOT 'add'
+    document.querySelectorAll(".tabButton, [data-nav]").forEach(btn => {
+       btn.addEventListener('click', () => {
+          const target = btn.dataset.tab || btn.dataset.nav;
+          // If we are navigating AWAY from add (meaning target is not 'add'), clear form
+          // But wait, 'add' button opens 'add'. Others open others.
+          if (target && target !== 'add') {
+             // We can safely reset the form if it's currently visible?
+             // Or just always reset it when leaving.
+             // Ideally we check if 'add' screen is currently active, but simple is fine:
+             clearEntryForm();
+          }
+       });
+    });
+
     entryForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const amount = parseFloat(document.getElementById("amountInput").value || "0");
@@ -581,10 +765,7 @@
       }
       state.transactions.unshift(tx);
       recalcAccounts(); saveState(); renderAll();
-      entryForm.reset(); currentType = "expense"; typeToggles[0].click();
-      document.getElementById("dateInput").valueAsDate = new Date();
-      document.getElementById("transferDateInput").valueAsDate = new Date();
-      recurringFields.classList.add("hidden");
+      clearEntryForm();
       showScreen("home");
     });
 
@@ -592,12 +773,42 @@
       Object.keys(state.accounts).forEach(name => state.accounts[name] = state.accountInitialBalances[name] || 0);
       [...state.transactions].sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(tx => {
         if (tx.type === "transfer") {
-          if (state.accounts.hasOwnProperty(tx.fromAccount)) state.accounts[tx.fromAccount] += (state.accountTypes[tx.fromAccount] === "credit" ? 1 : -1) * tx.amount;
-          if (state.accounts.hasOwnProperty(tx.toAccount)) state.accounts[tx.toAccount] += (state.accountTypes[tx.toAccount] === "credit" ? -1 : 1) * tx.amount;
+          // Transfer Logic
+          // From Account: Assets decrease (-), Liabilities decrease if paying it back?
+          // To Account: Assets increase (+), Liabilities increase if spending from it? (e.g. balance transfer)
+
+          // Current logic:
+          // Bank -> Bank: Bank1 -Amt, Bank2 +Amt
+          // Bank -> Credit: Bank -Amt, Credit -Amt (Liability reduces)
+          // Credit -> Bank: Credit +Amt (Liability increases), Bank +Amt (Asset increases) -- e.g. Cash advance
+
+          // Implementation:
+          // If account is Credit, balance is "Outstanding Debt".
+          // So 'spending' (expense) increases balance. 'paying' (income/transfer in) decreases balance.
+
+          if (state.accounts.hasOwnProperty(tx.fromAccount)) {
+             const isCreditFrom = state.accountTypes[tx.fromAccount] === "credit";
+             // If from is Credit (e.g. transfer from CC to somewhere), debt increases.
+             // If from is Bank, asset decreases.
+             state.accounts[tx.fromAccount] += (isCreditFrom ? 1 : -1) * tx.amount;
+          }
+
+          if (state.accounts.hasOwnProperty(tx.toAccount)) {
+             const isCreditTo = state.accountTypes[tx.toAccount] === "credit";
+             // If to is Credit (e.g. paying CC bill), debt decreases.
+             // If to is Bank, asset increases.
+             state.accounts[tx.toAccount] += (isCreditTo ? -1 : 1) * tx.amount;
+          }
+
         } else if (state.accounts.hasOwnProperty(tx.account)) {
           const isCredit = state.accountTypes[tx.account] === "credit";
-          if (isCredit) state.accounts[tx.account] += (tx.type === "expense" ? 1 : -1) * tx.amount;
-          else state.accounts[tx.account] += (tx.type === "income" ? 1 : -1) * tx.amount;
+          if (isCredit) {
+             // Credit Card: Expense increases debt (+), Income (refund) decreases debt (-)
+             state.accounts[tx.account] += (tx.type === "expense" ? 1 : -1) * tx.amount;
+          } else {
+             // Bank/Cash: Expense decreases asset (-), Income increases asset (+)
+             state.accounts[tx.account] += (tx.type === "income" ? 1 : -1) * tx.amount;
+          }
         }
       });
     }
@@ -744,7 +955,10 @@
 
       editTransactionModal.classList.remove("hidden");
     };
-    document.getElementById("cancelEditTx").onclick = () => editTransactionModal.classList.add("hidden");
+    document.getElementById("cancelEditTx").onclick = () => {
+       editTransactionModal.classList.add("hidden");
+       document.getElementById("editTransactionForm").reset(); // Clear edit form on cancel
+    };
     document.getElementById("editTransactionForm").onsubmit = (e) => {
       e.preventDefault();
       const id = document.getElementById("editTxId").value;
@@ -780,6 +994,7 @@
       state.transactions[idx] = updated;
       recalcAccounts(); saveState(); renderAll();
       editTransactionModal.classList.add("hidden");
+      document.getElementById("editTransactionForm").reset(); // Clear edit form on submit
     };
 
     // Date Cycle Settings Listener
