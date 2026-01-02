@@ -1,0 +1,343 @@
+    /* --- CORE iOS FIXES --- */
+    :root {
+      color-scheme: dark;
+      --safe-top: env(safe-area-inset-top, 20px);
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+      --nav-height: 90px;
+    }
+
+    html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      height: 100dvh;
+      width: 100vw;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+      transition: background 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      inset: 0;
+    }
+
+    /* Input Zoom Fix */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+
+    /* Main Scroll Container */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+      padding-top: 10px;
+      padding-bottom: calc(var(--nav-height) + 20px);
+      scroll-padding-bottom: calc(var(--nav-height) + 20px);
+    }
+
+    /* Category List Styles */
+    .category-row {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       padding: 8px 0;
+       border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+    .category-row:last-child {
+       border-bottom: none;
+    }
+    .category-row .actions {
+       display: flex;
+       gap: 8px;
+    }
+    .category-row button {
+       padding: 4px;
+       color: #94a3b8;
+       transition: color 0.2s;
+    }
+    .category-row button:hover {
+       color: #38bdf8;
+    }
+    .category-row button.delete-btn:hover {
+       color: #f43f5e;
+    }
+
+    /* --- THEME STYLES --- */
+    [data-theme="light"] body {
+      background: radial-gradient(circle at top, #e0f2fe 0, #f0f9ff 55%, #ffffff 100%);
+    }
+
+    /* Glass Effects */
+    .glass {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.25), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.75);
+    }
+
+    [data-theme="light"] .glass {
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), rgba(241, 245, 249, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 18px 40px rgba(100, 116, 139, 0.15);
+    }
+
+    .glass-soft {
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: linear-gradient(135deg, rgba(30, 64, 175, 0.16), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    [data-theme="light"] .glass-soft {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.95));
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 4px 12px rgba(100, 116, 139, 0.05);
+    }
+
+    .tab-glass {
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+      border-top: 1px solid rgba(148, 163, 184, 0.22);
+      padding-bottom: var(--safe-bottom);
+      height: var(--nav-height);
+      position: absolute;
+      bottom: 0;
+      /* Fix: Constrain width to match app */
+      width: 100%;
+      max-width: 28rem; /* max-w-md */
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      z-index: 50;
+    }
+
+    [data-theme="light"] .tab-glass {
+      background: rgba(255, 255, 255, 0.95);
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    /* --- LIGHT MODE VISIBILITY FIXES --- */
+    [data-theme="light"] { color-scheme: light; }
+    [data-theme="light"] .text-slate-100 { color: #1e293b !important; }
+    [data-theme="light"] .text-slate-200 { color: #334155 !important; }
+    [data-theme="light"] .text-slate-300 { color: #475569 !important; }
+    [data-theme="light"] .text-slate-400 { color: #64748b !important; }
+    [data-theme="light"] .text-slate-500 { color: #94a3b8 !important; }
+
+    /* Specific overrides for Net Worth Card & Alerts in Light Mode */
+    [data-theme="light"] .card-label { color: #475569 !important; } /* Darker grey */
+    [data-theme="light"] .card-subtext { color: #64748b !important; }
+    [data-theme="light"] .text-slate-300\/80 { color: #475569 !important; } /* Net worth label */
+    [data-theme="light"] .text-slate-100\/90 { color: #334155 !important; } /* Cycle text */
+    [data-theme="light"] .text-emerald-200 { color: #065f46 !important; } /* Alert text */
+    [data-theme="light"] .text-amber-200 { color: #92400e !important; }
+    [data-theme="light"] .text-rose-200 { color: #9f1239 !important; } /* CC Alert title */
+
+    /* Tab Toggle Visibility in Light Mode */
+    [data-theme="light"] .typeToggle {
+        color: #1e293b !important; /* Dark text for visibility */
+        border-color: #cbd5e1 !important;
+    }
+    [data-theme="light"] .typeToggle.text-rose-50 {
+        color: #9f1239 !important; /* Dark Rose text for active Expense */
+        background-color: #ffe4e6 !important; /* Light Rose bg */
+        border-color: #fda4af !important;
+    }
+    [data-theme="light"] .typeToggle.text-emerald-50 {
+        color: #065f46 !important; /* Dark Emerald text for active Income */
+        background-color: #d1fae5 !important; /* Light Emerald bg */
+        border-color: #6ee7b7 !important;
+    }
+    [data-theme="light"] .typeToggle.text-sky-50 {
+        color: #075985 !important; /* Dark Sky text for active Transfer */
+        background-color: #e0f2fe !important; /* Light Sky bg */
+        border-color: #7dd3fc !important;
+    }
+
+    /* Input Fields in Light Mode */
+    [data-theme="light"] .bg-slate-950\/70 {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    /* FIX: Added override for settings inputs using bg-slate-900/50 */
+    [data-theme="light"] .bg-slate-900\/50 {
+      background-color: #ffffff !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    [data-theme="light"] input,
+    [data-theme="light"] select,
+    [data-theme="light"] textarea {
+      color: #0f172a !important;
+    }
+
+    /* FAB Button in Light Mode */
+    [data-theme="light"] .neon-ring {
+      background-color: #ffffff !important;
+      color: #0ea5e9 !important; /* Sky-500 */
+      border-color: #7dd3fc !important;
+    }
+
+    /* Colors */
+    [data-theme="light"] .text-emerald-300 { color: #059669 !important; }
+    [data-theme="light"] .text-rose-300 { color: #dc2626 !important; }
+    [data-theme="light"] .text-sky-300 { color: #0284c7 !important; }
+    [data-theme="light"] .text-amber-300 { color: #d97706 !important; }
+
+    /* --- UTILITIES --- */
+    .app-title {
+      background: linear-gradient(135deg, #38bdf8 0%, #34d399 50%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .neon-ring::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 9999px;
+      background: conic-gradient(from 140deg, rgba(45, 212, 191, 0.8), rgba(59, 130, 246, 0.9), rgba(244, 114, 182, 0.8), rgba(45, 212, 191, 0.8));
+      opacity: 0.7;
+      filter: blur(12px);
+      z-index: -1;
+    }
+
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.hidden { display: none !important; }
+
+    .modal-content {
+      max-height: 85dvh;
+      overflow-y: auto;
+    }
+
+    .masked-amount { filter: blur(8px); user-select: none; }
+    /* --- LIQUID GLASS NAV & SEARCH --- */
+
+    /* Sliding Glass Pill Indicator */
+    .nav-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 100%;
+      border-radius: 9999px; /* Pill shape is typically handled by container or specific sizing, but here it's a backdrop */
+      /* Actually, the nav items are full height. The pill might be behind the icon/text or full tab?
+         "fills like glass water is moving form 1 menu to another" implies a background pill.
+         Let's make it a noticeable pill behind the icon/text. */
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(56, 189, 248, 0.15); /* Sky blue tint */
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth liquid-like easing */
+      z-index: -1;
+      pointer-events: none;
+      /* Default size - will be set by JS */
+      width: 0;
+      left: 0;
+      opacity: 0; /* Hidden initially until JS sets it */
+    }
+
+    [data-theme="light"] .nav-indicator {
+      background: rgba(2, 132, 199, 0.1);
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);
+      border: 1px solid rgba(2, 132, 199, 0.1);
+    }
+
+    /* Floating Search Bar */
+    .floating-search-container {
+       position: fixed;
+       bottom: calc(var(--nav-height) + 16px);
+       left: 50%;
+       transform: translateX(-50%);
+       width: calc(100% - 32px);
+       max-width: 26rem; /* slightly less than max-w-md */
+       z-index: 40;
+    }
+
+    .search-input {
+       width: 100%;
+       padding: 12px 20px;
+       border-radius: 9999px;
+       background: rgba(15, 23, 42, 0.7);
+       backdrop-filter: blur(16px);
+       -webkit-backdrop-filter: blur(16px);
+       border: 1px solid rgba(148, 163, 184, 0.3);
+       color: #f1f5f9;
+       font-size: 14px;
+       outline: none;
+       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+       transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+       background: rgba(15, 23, 42, 0.85);
+       border-color: rgba(56, 189, 248, 0.5);
+       box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
+    }
+
+    [data-theme="light"] .search-input {
+       background: rgba(255, 255, 255, 0.75);
+       color: #0f172a;
+       border-color: rgba(148, 163, 184, 0.4);
+       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="light"] .search-input:focus {
+       background: rgba(255, 255, 255, 0.95);
+       border-color: rgba(2, 132, 199, 0.4);
+    }
+
+    /* Data Management Buttons */
+    .data-btn {
+       flex: 1;
+       padding: 10px;
+       border-radius: 12px;
+       font-size: 12px;
+       font-weight: 500;
+       text-align: center;
+       transition: all 0.2s;
+       border: 1px solid transparent;
+    }
+    .data-btn-import {
+       background: rgba(16, 185, 129, 0.15);
+       color: #34d399;
+       border-color: rgba(16, 185, 129, 0.3);
+    }
+    .data-btn-export {
+       background: rgba(56, 189, 248, 0.15);
+       color: #38bdf8;
+       border-color: rgba(56, 189, 248, 0.3);
+    }
+    .data-btn-reset {
+       background: rgba(244, 63, 94, 0.15);
+       color: #fb7185;
+       border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    [data-theme="light"] .data-btn-import { color: #059669; border-color: rgba(5, 150, 105, 0.3); background: rgba(5, 150, 105, 0.1); }
+    [data-theme="light"] .data-btn-export { color: #0284c7; border-color: rgba(2, 132, 199, 0.3); background: rgba(2, 132, 199, 0.1); }
+    [data-theme="light"] .data-btn-reset { color: #e11d48; border-color: rgba(225, 29, 72, 0.3); background: rgba(225, 29, 72, 0.1); }
