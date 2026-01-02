@@ -235,3 +235,109 @@
     }
 
     .masked-amount { filter: blur(8px); user-select: none; }
+    /* --- LIQUID GLASS NAV & SEARCH --- */
+
+    /* Sliding Glass Pill Indicator */
+    .nav-indicator {
+      position: absolute;
+      bottom: 0;
+      height: 100%;
+      border-radius: 9999px; /* Pill shape is typically handled by container or specific sizing, but here it's a backdrop */
+      /* Actually, the nav items are full height. The pill might be behind the icon/text or full tab?
+         "fills like glass water is moving form 1 menu to another" implies a background pill.
+         Let's make it a noticeable pill behind the icon/text. */
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(56, 189, 248, 0.15); /* Sky blue tint */
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth liquid-like easing */
+      z-index: -1;
+      pointer-events: none;
+      /* Default size - will be set by JS */
+      width: 0;
+      left: 0;
+      opacity: 0; /* Hidden initially until JS sets it */
+    }
+
+    [data-theme="light"] .nav-indicator {
+      background: rgba(2, 132, 199, 0.1);
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);
+      border: 1px solid rgba(2, 132, 199, 0.1);
+    }
+
+    /* Floating Search Bar */
+    .floating-search-container {
+       position: fixed;
+       bottom: calc(var(--nav-height) + 16px);
+       left: 50%;
+       transform: translateX(-50%);
+       width: calc(100% - 32px);
+       max-width: 26rem; /* slightly less than max-w-md */
+       z-index: 40;
+    }
+
+    .search-input {
+       width: 100%;
+       padding: 12px 20px;
+       border-radius: 9999px;
+       background: rgba(15, 23, 42, 0.7);
+       backdrop-filter: blur(16px);
+       -webkit-backdrop-filter: blur(16px);
+       border: 1px solid rgba(148, 163, 184, 0.3);
+       color: #f1f5f9;
+       font-size: 14px;
+       outline: none;
+       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+       transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+       background: rgba(15, 23, 42, 0.85);
+       border-color: rgba(56, 189, 248, 0.5);
+       box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
+    }
+
+    [data-theme="light"] .search-input {
+       background: rgba(255, 255, 255, 0.75);
+       color: #0f172a;
+       border-color: rgba(148, 163, 184, 0.4);
+       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="light"] .search-input:focus {
+       background: rgba(255, 255, 255, 0.95);
+       border-color: rgba(2, 132, 199, 0.4);
+    }
+
+    /* Data Management Buttons */
+    .data-btn {
+       flex: 1;
+       padding: 10px;
+       border-radius: 12px;
+       font-size: 12px;
+       font-weight: 500;
+       text-align: center;
+       transition: all 0.2s;
+       border: 1px solid transparent;
+    }
+    .data-btn-import {
+       background: rgba(16, 185, 129, 0.15);
+       color: #34d399;
+       border-color: rgba(16, 185, 129, 0.3);
+    }
+    .data-btn-export {
+       background: rgba(56, 189, 248, 0.15);
+       color: #38bdf8;
+       border-color: rgba(56, 189, 248, 0.3);
+    }
+    .data-btn-reset {
+       background: rgba(244, 63, 94, 0.15);
+       color: #fb7185;
+       border-color: rgba(244, 63, 94, 0.3);
+    }
+
+    [data-theme="light"] .data-btn-import { color: #059669; border-color: rgba(5, 150, 105, 0.3); background: rgba(5, 150, 105, 0.1); }
+    [data-theme="light"] .data-btn-export { color: #0284c7; border-color: rgba(2, 132, 199, 0.3); background: rgba(2, 132, 199, 0.1); }
+    [data-theme="light"] .data-btn-reset { color: #e11d48; border-color: rgba(225, 29, 72, 0.3); background: rgba(225, 29, 72, 0.1); }

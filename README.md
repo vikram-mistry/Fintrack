@@ -22,12 +22,19 @@ Fintrack Pro is a personal finance management application designed to help users
 - **Data Visualization**:
     - Visual representations of spending vs. income.
     - Category-wise spending breakdown.
-- **Data Persistence**:
-    - All data is stored locally in your browser (LocalStorage), ensuring privacy and persistence across sessions.
+- **Data Persistence & Management**:
+    - All data is stored locally in your browser (LocalStorage).
+    - **Backup & Restore**: Export your entire data to a JSON file and import it back to sync across devices or keep backups.
+    - **Reset**: Option to completely wipe data and start fresh.
+    - **Archives**: Automatic monthly archiving of transactions to keep the active view clean.
+- **Advanced Search**:
+    - Filter logs by type (Income/Expense) and date range.
+    - Floating search bar to instantly find transactions by note, category, or amount.
 - **Export Data**:
     - Export transaction logs to CSV for external analysis.
-- **Theme Support**:
-    - Toggle between Dark and Light modes.
+- **UI/UX**:
+    - **Liquid Navigation**: Smooth sliding animations for navigation tabs.
+    - **Theme Support**: Dark mode with glassmorphism design aesthetics.
     - Glassmorphism design aesthetics.
 
 ## Technologies Used

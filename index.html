@@ -110,7 +110,7 @@
     </section>
 
     <!-- LOGS -->
-    <section data-screen="logs" class="hidden space-y-3">
+    <section data-screen="logs" class="hidden space-y-3 pb-16">
       <header class="flex items-center justify-between mt-1">
         <h2 class="text-base font-semibold">Logs</h2>
         <button id="exportCSVBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-soft border border-sky-400/40 text-xs text-sky-300"><span>📥</span> <span>Export CSV</span></button>
@@ -130,6 +130,11 @@
       </div>
       <div id="logsList" class="space-y-2 text-sm"></div>
       <p id="emptyLogs" class="text-xs text-slate-400 mt-3 text-center">No transactions yet.</p>
+
+      <!-- Floating Search Bar -->
+      <div class="floating-search-container">
+        <input type="text" id="logsSearchInput" placeholder="Search logs (date, note, category...)" class="search-input" />
+      </div>
     </section>
 
     <!-- BUDGET -->
@@ -309,36 +314,52 @@
           <div id="categoryBudgetsList" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
         </div>
         <div class="glass rounded-3xl p-3">
-          <div class="flex items-center justify-between mb-3">
-            <p class="text-sm font-medium">Transaction Archive</p>
-            <span class="text-[10px] text-slate-400">Monthly cycle backups</span>
+          <div class="flex items-center justify-between cursor-pointer" id="archiveHeader">
+            <div>
+              <p class="text-sm font-medium">Transaction Archive</p>
+              <span class="text-[10px] text-slate-400">Monthly cycle backups</span>
+            </div>
+            <span id="archiveArrow" class="text-slate-400 transform transition-transform">▼</span>
           </div>
-          <div id="archiveList" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
-          <p id="emptyArchive" class="text-xs text-slate-400 text-center py-2 hidden">No transactions found.</p>
+          <div id="archiveContainer" class="hidden space-y-2 mt-2 border-t border-slate-800/50 pt-2">
+            <div id="archiveList" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+            <p id="emptyArchive" class="text-xs text-slate-400 text-center py-2 hidden">No transactions found.</p>
+          </div>
         </div>
-        <div class="glass rounded-3xl p-3">
-          <p class="text-xs text-slate-300 mb-2">Data Management</p>
-          <div class="flex gap-3">
-            <button id="resetData" class="text-xs text-rose-300 underline underline-offset-4">Reset Data</button>
+
+        <div class="glass rounded-3xl p-4 text-xs space-y-3">
+          <h3 class="text-slate-300 font-semibold">Data Management</h3>
+          <div class="grid grid-cols-3 gap-2">
+            <button id="exportDataBtn" class="data-btn text-sky-300 border-sky-500/30 hover:bg-sky-500/10">
+              <span class="text-lg mb-1">⬆</span> Export
+            </button>
+            <button id="importDataBtn" class="data-btn text-emerald-300 border-emerald-500/30 hover:bg-emerald-500/10">
+              <span class="text-lg mb-1">⬇</span> Import
+            </button>
+            <button id="resetDataBtn" class="data-btn text-red-300 border-red-500/30 hover:bg-red-500/10">
+              <span class="text-lg mb-1">✕</span> Reset
+            </button>
           </div>
+          <input type="file" id="importFileInput" accept=".json" class="hidden" />
         </div>
       </div>
     </section>
   </main>
 
   <!-- NAVIGATION -->
-  <nav class="tab-glass flex items-center justify-around text-[10px] px-2">
-    <button data-tab="home" class="tabButton flex flex-col items-center gap-0.5 text-sky-300 flex-1"><span class="text-xl">⌂</span> <span>Home</span></button>
-    <button data-tab="logs" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1"><span class="text-xl">☰</span> <span>Logs</span></button>
-    <button data-tab="budget" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1"><span class="text-xl">◎</span> <span>Budget</span></button>
-    <div class="relative -mt-6 flex-1 flex justify-center">
+  <nav class="tab-glass flex items-center justify-around text-[10px] px-2 relative">
+    <div id="navIndicator" class="nav-indicator"></div>
+    <button data-tab="home" class="tabButton flex flex-col items-center gap-0.5 text-sky-300 flex-1 relative z-10"><span class="text-xl">⌂</span> <span>Home</span></button>
+    <button data-tab="logs" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">☰</span> <span>Logs</span></button>
+    <button data-tab="budget" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">◎</span> <span>Budget</span></button>
+    <div class="relative -mt-6 flex-1 flex justify-center z-20">
       <button data-tab="add" class="tabButton relative neon-ring rounded-full h-14 w-14 flex items-center justify-center bg-slate-900 text-slate-100 border border-sky-400/70 shadow-xl shadow-sky-500/50">
         <span class="text-3xl leading-none mb-1">＋</span>
       </button>
     </div>
-    <button data-tab="accounts" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1"><span class="text-xl">⊞</span> <span>Accounts</span></button>
-    <button data-tab="recurring" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1"><span class="text-xl">∞</span> <span>Due</span></button>
-    <button data-tab="settings" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1"><span class="text-xl">⚙︎</span> <span>Settings</span></button>
+    <button data-tab="accounts" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">⊞</span> <span>Accounts</span></button>
+    <button data-tab="recurring" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">∞</span> <span>Due</span></button>
+    <button data-tab="settings" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">⚙︎</span> <span>Settings</span></button>
   </nav>
 
   <!-- MODALS -->

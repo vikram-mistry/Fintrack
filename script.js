@@ -91,6 +91,22 @@
     const screenSections = document.querySelectorAll("[data-screen]");
     const tabButtons = document.querySelectorAll(".tabButton");
 
+    function moveNavIndicator(activeBtn) {
+       const nav = document.querySelector('nav');
+       const indicator = document.getElementById('navIndicator');
+       if(!activeBtn || !indicator || activeBtn.dataset.tab === 'add') return;
+
+       const navRect = nav.getBoundingClientRect();
+       const btnRect = activeBtn.getBoundingClientRect();
+
+       const left = btnRect.left - navRect.left;
+       const width = btnRect.width;
+
+       indicator.style.width = `${width}px`;
+       indicator.style.transform = `translateX(${left}px)`;
+       indicator.style.opacity = "1";
+    }
+
     function showScreen(name) {
       screenSections.forEach((sec) => sec.classList.toggle("hidden", sec.dataset.screen !== name));
       tabButtons.forEach((btn) => {
@@ -98,9 +114,20 @@
         if (btn.dataset.tab === 'add') return;
         btn.classList.toggle("text-sky-300", isActive);
         btn.classList.toggle("text-slate-400", !isActive);
+
+        if (isActive) {
+           // Small delay to ensure layout is ready if needed, or immediate
+           requestAnimationFrame(() => moveNavIndicator(btn));
+        }
       });
       document.querySelector('main').scrollTop = 0;
     }
+
+    // Handle resize to adjust indicator
+    window.addEventListener('resize', () => {
+       const activeBtn = document.querySelector('.tabButton.text-sky-300');
+       if(activeBtn) moveNavIndicator(activeBtn);
+    });
 
     tabButtons.forEach((btn) => btn.addEventListener("click", () => { if (btn.dataset.tab) showScreen(btn.dataset.tab); }));
     document.querySelectorAll("[data-nav]").forEach((btn) => btn.addEventListener("click", () => showScreen(btn.dataset.nav)));
@@ -426,6 +453,8 @@
       const logsList = document.getElementById("logsList");
       const filterType = document.getElementById("logsFilterType").value;
       const filterRange = document.getElementById("logsFilterRange").value;
+      const searchQuery = document.getElementById("logsSearchInput").value.toLowerCase();
+
       logsList.innerHTML = "";
       const now = new Date();
       let filtered = state.transactions.filter((tx) => {
@@ -434,6 +463,16 @@
         const d = new Date(tx.date);
         const diffDays = Math.ceil(Math.abs(now - d) / (1000 * 60 * 60 * 24));
         if (filterRange === "week" && diffDays > 7) return false;
+
+        // Search Logic
+        if (searchQuery) {
+           const note = (tx.note || "").toLowerCase();
+           const cat = (tx.category || "").toLowerCase();
+           const amt = tx.amount.toString();
+           const dateStr = tx.date;
+           if (!note.includes(searchQuery) && !cat.includes(searchQuery) && !amt.includes(searchQuery) && !dateStr.includes(searchQuery)) return false;
+        }
+
         return true;
       });
       filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -446,6 +485,7 @@
     }
     document.getElementById("logsFilterType").addEventListener("change", renderLogs);
     document.getElementById("logsFilterRange").addEventListener("change", renderLogs);
+    document.getElementById("logsSearchInput").addEventListener("input", renderLogs);
 
     function renderBudget() {
       let monthlySpent = 0;
@@ -1019,8 +1059,8 @@
     // Set initial value
     document.getElementById("monthStartDateInput").value = state.monthStartDate || 1;
 
-    // Fixed Reset Data
-    const resetBtn = document.getElementById("resetData");
+    // Data Management: Reset
+    const resetBtn = document.getElementById("resetDataBtn");
     if(resetBtn) {
         resetBtn.onclick = () => {
           if(confirm("Are you sure? All data will be wiped.")) {
@@ -1028,6 +1068,60 @@
             location.reload();
           }
         };
+    }
+
+    // Data Management: Export JSON
+    const exportBtn = document.getElementById("exportDataBtn");
+    if(exportBtn) {
+       exportBtn.onclick = () => {
+           const dataStr = JSON.stringify(state, null, 2);
+           const blob = new Blob([dataStr], { type: "application/json" });
+           const url = URL.createObjectURL(blob);
+           const a = document.createElement('a');
+           a.href = url;
+           a.download = `FinTrack_Backup_${new Date().toISOString().slice(0,10)}.json`;
+           a.click();
+       };
+    }
+
+    // Data Management: Import JSON
+    const importBtn = document.getElementById("importDataBtn");
+    const importInput = document.getElementById("importFileInput");
+    if(importBtn && importInput) {
+       importBtn.onclick = () => importInput.click();
+
+       importInput.onchange = (e) => {
+           const file = e.target.files[0];
+           if (!file) return;
+           const reader = new FileReader();
+           reader.onload = (event) => {
+              try {
+                 const imported = JSON.parse(event.target.result);
+                 // Basic validation
+                 if (!imported.transactions || !imported.accounts || !imported.categories) throw new Error("Invalid format");
+
+                 if(confirm("This will overwrite your current data. Continue?")) {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(imported));
+                    location.reload();
+                 }
+              } catch(err) {
+                 alert("Failed to import data: " + err.message);
+              }
+           };
+           reader.readAsText(file);
+       };
+    }
+
+    // Archive Toggle Logic
+    const archiveHeader = document.getElementById("archiveHeader");
+    if(archiveHeader) {
+       archiveHeader.addEventListener("click", () => {
+           const container = document.getElementById("archiveContainer");
+           const arrow = document.getElementById("archiveArrow");
+           const isHidden = container.classList.contains("hidden");
+           container.classList.toggle("hidden", !isHidden);
+           arrow.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
+       });
     }
 
     const editBudgetModal = document.getElementById("editBudgetModal");
