@@ -99,11 +99,16 @@
        const navRect = nav.getBoundingClientRect();
        const btnRect = activeBtn.getBoundingClientRect();
 
-       const left = btnRect.left - navRect.left;
-       const width = btnRect.width;
+       // Calculate center of the active button relative to the nav
+       const centerX = (btnRect.left - navRect.left) + (btnRect.width / 2);
+       // We want the 56px indicator to be centered there
+       const indicatorSize = 56;
+       const left = centerX - (indicatorSize / 2);
 
-       indicator.style.width = `${width}px`;
-       indicator.style.transform = `translateX(${left}px)`;
+       // Note: width is fixed in CSS, we only translate X. Y is handled by CSS (translateY -50%)
+       // We need to preserve the Y transform from CSS.
+       // CSS has transform: translate(0, -50%); so here we use translate(X, -50%)
+       indicator.style.transform = `translate(${left}px, -50%)`;
        indicator.style.opacity = "1";
     }
 
@@ -662,6 +667,17 @@
        const budget = parseFloat(document.getElementById("categoryBudgetInput").value) || 0;
 
        if(!newName) return;
+
+       // Validation: Check total budget
+       const currentAllocated = Object.entries(state.categories).reduce((sum, [key, val]) => {
+          // Exclude the category being edited (if it existed) to avoid double counting
+          if (oldName && key === oldName) return sum;
+          return sum + (val.budget || 0);
+       }, 0);
+
+       if (currentAllocated + budget > state.budgetMonthly) {
+          return alert(`Cannot allocate ₹${budget}. Remaining budget is ₹${Math.max(0, state.budgetMonthly - currentAllocated)}.`);
+       }
 
        if(oldName && newName !== oldName) {
           // Rename: Check if exists

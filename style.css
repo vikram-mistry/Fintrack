@@ -237,26 +237,22 @@
     .masked-amount { filter: blur(8px); user-select: none; }
     /* --- LIQUID GLASS NAV & SEARCH --- */
 
-    /* Sliding Glass Pill Indicator */
+    /* Sliding Glass Circle Indicator */
     .nav-indicator {
       position: absolute;
-      bottom: 0;
-      height: 100%;
-      border-radius: 9999px; /* Pill shape is typically handled by container or specific sizing, but here it's a backdrop */
-      /* Actually, the nav items are full height. The pill might be behind the icon/text or full tab?
-         "fills like glass water is moving form 1 menu to another" implies a background pill.
-         Let's make it a noticeable pill behind the icon/text. */
+      width: 56px; /* Fixed size circle */
+      height: 56px;
+      border-radius: 50%;
       top: 50%;
-      transform: translateY(-50%);
+      /* Transform will include translateX and translateY */
+      transform: translate(0, -50%);
       background: rgba(56, 189, 248, 0.15); /* Sky blue tint */
       box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(4px);
       border: 1px solid rgba(56, 189, 248, 0.2);
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth liquid-like easing */
-      z-index: -1;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth liquid-like easing */
+      z-index: 0; /* Behind text (z-10) */
       pointer-events: none;
-      /* Default size - will be set by JS */
-      width: 0;
       left: 0;
       opacity: 0; /* Hidden initially until JS sets it */
     }
