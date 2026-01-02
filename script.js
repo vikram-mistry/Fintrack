@@ -588,6 +588,14 @@
       applyMasking();
     }
 
+    function calculateAllocatedExpenses(excludeName = null) {
+      return Object.entries(state.categories).reduce((sum, [name, data]) => {
+        if (name === excludeName) return sum;
+        if (data.type === 'expense') return sum + (data.budget || 0);
+        return sum;
+      }, 0);
+    }
+
     function renderCategoryBudgets() {
        const list = document.getElementById("categoryBudgetsList");
        list.innerHTML = "";
@@ -617,7 +625,7 @@
              <span class="text-xs font-medium text-slate-200 truncate">${cat}</span>
            </div>
            <div class="flex items-center gap-3">
-             <input type="number" placeholder="Budget" class="w-20 bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-1 text-xs text-right text-slate-200" value="${data.budget}" onchange="updateCatBudget('${cat}', this.value)" />
+             <input type="number" placeholder="Budget" class="w-20 bg-slate-900/50 border border-slate-700 rounded-lg px-2 py-1 text-xs text-right text-slate-200" value="${data.budget}" onchange="updateCatBudget('${cat}', this)" />
              <div class="actions">
                <button onclick="openCategoryModal('${cat}')" class="text-xs">✏️</button>
                <button onclick="deleteCategory('${cat}')" class="text-xs delete-btn">🗑️</button>
@@ -627,9 +635,29 @@
          list.appendChild(row);
        });
     }
-    window.updateCatBudget = (cat, val) => {
-       if(state.categories[cat]) {
-          state.categories[cat].budget = parseFloat(val) || 0;
+
+    window.updateCatBudget = (cat, inputEl) => {
+       const val = parseFloat(inputEl.value) || 0;
+       const data = state.categories[cat];
+
+       if(data) {
+          // Validation for Expenses
+          if (data.type === 'expense') {
+              if (val < 0) {
+                  inputEl.value = data.budget;
+                  return;
+              }
+              const currentAllocated = calculateAllocatedExpenses(cat);
+              const remaining = state.budgetMonthly - currentAllocated;
+
+              if (val > remaining) {
+                  alert(`⚠️ Budget Exceeded\n\nCannot allocate ₹${val} to '${cat}'.\nMaximum available: ₹${Math.max(0, remaining)}`);
+                  inputEl.value = data.budget; // Revert
+                  return;
+              }
+          }
+
+          state.categories[cat].budget = val;
           saveState();
           renderBudget();
        }
@@ -668,15 +696,14 @@
 
        if(!newName) return;
 
-       // Validation: Check total budget
-       const currentAllocated = Object.entries(state.categories).reduce((sum, [key, val]) => {
-          // Exclude the category being edited (if it existed) to avoid double counting
-          if (oldName && key === oldName) return sum;
-          return sum + (val.budget || 0);
-       }, 0);
+       // Validation: Check total budget (Only for Expenses)
+       if (type === 'expense') {
+           const currentAllocated = calculateAllocatedExpenses(oldName);
+           const remaining = state.budgetMonthly - currentAllocated;
 
-       if (currentAllocated + budget > state.budgetMonthly) {
-          return alert(`Cannot allocate ₹${budget}. Remaining budget is ₹${Math.max(0, state.budgetMonthly - currentAllocated)}.`);
+           if (budget > remaining) {
+              return alert(`⚠️ Budget Exceeded\n\nCannot allocate ₹${budget} to '${newName}'.\nMaximum available: ₹${Math.max(0, remaining)}`);
+           }
        }
 
        if(oldName && newName !== oldName) {
