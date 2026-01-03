@@ -5,6 +5,7 @@ Fintrack Pro is a personal finance management application designed to help users
 ## Features
 
 - **Dashboard Overview**: View your net worth, monthly income, monthly spending, and burn rate at a glance.
+    - **Net Worth Breakdown**: Click on the Net Worth card to see a detailed breakdown of your assets and liabilities.
 - **Transaction Management**:
     - Log Income, Expense, and Transfer transactions.
     - Categorize transactions for better tracking.

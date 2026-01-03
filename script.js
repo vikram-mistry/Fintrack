@@ -395,13 +395,41 @@
       document.getElementById("monthlySpentDisplay").textContent = currency(monthlySpent);
 
       let netWorth = 0;
+      let totalAssets = 0;
+      let totalLiabilities = 0;
+
       for (const acc in state.accounts) {
         const type = state.accountTypes[acc];
         const balance = state.accounts[acc];
-        if (type === "credit") netWorth -= balance;
-        else netWorth += balance;
+
+        if (type === "credit") {
+             // Credit card balance is a liability
+             netWorth -= balance;
+             totalLiabilities += balance;
+        } else {
+             // Bank/Cash/Investment
+             // If positive, it's an asset. If negative (overdraft), it's a liability?
+             // For simplicity, let's treat negative bank balance as liability.
+             netWorth += balance;
+             if (balance >= 0) {
+                 totalAssets += balance;
+             } else {
+                 totalLiabilities += Math.abs(balance);
+             }
+        }
       }
       document.getElementById("netWorthDisplay").textContent = currency(netWorth);
+
+      // Update Net Worth Tooltip with dynamic breakdown
+      const tooltip = document.getElementById("netWorthTooltip");
+      if (tooltip) {
+          tooltip.innerHTML = `
+            Assets: <span class="text-emerald-300">${currency(totalAssets)}</span><br>
+            Liabilities: <span class="text-rose-300">-${currency(totalLiabilities)}</span><br>
+            <div class="h-px bg-slate-700 my-1"></div>
+            Net Worth: <span class="font-semibold">${currency(netWorth)}</span>
+          `;
+      }
 
       const burnRatio = state.budgetMonthly ? Math.min(1, monthlySpent / state.budgetMonthly) : 0;
       const burnBar = document.getElementById("burnRateBar");
@@ -1188,3 +1216,20 @@
     recalcAccounts();
     renderAll();
     showScreen("home");
+
+    // Net Worth Tooltip Logic
+    const netWorthTooltip = document.getElementById("netWorthTooltip");
+    const netWorthInfoIcon = document.getElementById("netWorthInfoIcon");
+
+    if (netWorthInfoIcon && netWorthTooltip) {
+       netWorthInfoIcon.addEventListener("click", (e) => {
+          e.stopPropagation();
+          netWorthTooltip.classList.toggle("visible");
+       });
+
+       document.addEventListener("click", (e) => {
+          if (!netWorthTooltip.contains(e.target) && e.target !== netWorthInfoIcon) {
+             netWorthTooltip.classList.remove("visible");
+          }
+       });
+    }
