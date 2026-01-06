@@ -66,27 +66,71 @@
       reminderPayments: {}
     };
 
-    function loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return structuredClone(initialState);
-        const parsed = JSON.parse(raw);
-        const merged = Object.assign(structuredClone(initialState), parsed);
-        for (const cat in merged.categories) if (typeof merged.categories[cat].budget === 'undefined') merged.categories[cat].budget = 0;
-        if (!merged.reminderPayments) merged.reminderPayments = {};
-        if (!merged.accountInitialBalances) merged.accountInitialBalances = {};
-        if (!merged.accountDueDays) merged.accountDueDays = {};
-        return merged;
-      } catch (e) {
-        return structuredClone(initialState);
+    // --- IndexedDB Storage Logic ---
+    const DB_NAME = 'FintrackDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'state';
+
+    const IDBStorage = {
+      dbPromise: null,
+
+      open() {
+        if (this.dbPromise) return this.dbPromise;
+        this.dbPromise = new Promise((resolve, reject) => {
+          const request = indexedDB.open(DB_NAME, DB_VERSION);
+          request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+              db.createObjectStore(STORE_NAME);
+            }
+          };
+          request.onsuccess = (event) => resolve(event.target.result);
+          request.onerror = (event) => reject(event.target.error);
+        });
+        return this.dbPromise;
+      },
+
+      async save(data) {
+        try {
+          const db = await this.open();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readwrite');
+            const store = tx.objectStore(STORE_NAME);
+            // Cloning data to avoid "DataCloneError" or side-effects if IDB implementation varies
+            // IDB uses structured clone, so passing the object directly is fine.
+            store.put(data, 'data');
+            tx.oncomplete = () => resolve();
+            tx.onerror = (e) => reject(e.target.error);
+          });
+        } catch (e) {
+          console.error("IDB Save Failed:", e);
+        }
+      },
+
+      async load() {
+        try {
+          const db = await this.open();
+          return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, 'readonly');
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.get('data');
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = (e) => reject(e.target.error);
+          });
+        } catch (e) {
+          console.error("IDB Load Failed:", e);
+          return null;
+        }
       }
-    }
+    };
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      // Async save (fire and forget for UI responsiveness)
+      IDBStorage.save(state);
     }
 
-    let state = loadState();
+    // Initialize with defaults, will be populated by initApp
+    let state = structuredClone(initialState);
 
     const screenSections = document.querySelectorAll("[data-screen]");
     const tabButtons = document.querySelectorAll(".tabButton");
@@ -1128,8 +1172,18 @@
     // Data Management: Reset
     const resetBtn = document.getElementById("resetDataBtn");
     if(resetBtn) {
-        resetBtn.onclick = () => {
+        resetBtn.onclick = async () => {
           if(confirm("Are you sure? All data will be wiped.")) {
+            // Clear IDB
+            try {
+                const db = await IDBStorage.open();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                const store = tx.objectStore(STORE_NAME);
+                store.clear();
+                await new Promise(r => { tx.oncomplete = r; tx.onerror = r; });
+            } catch(e) { console.error(e); }
+
+            // Clear LocalStorage just in case
             localStorage.removeItem(STORAGE_KEY);
             location.reload();
           }
@@ -1179,8 +1233,14 @@
                  if (!imported.transactions || !imported.accounts || !imported.categories) throw new Error("Invalid format");
 
                  if(confirm("This will overwrite your current data. Continue?")) {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(imported));
-                    location.reload();
+                    // Update state synchronously for immediate feedback if needed, but primarily save to IDB
+                    state = imported; // Update in-memory to be safe before reload, though reload clears it.
+
+                    // We must wait for save before reloading
+                    IDBStorage.save(imported).then(() => {
+                        localStorage.removeItem(STORAGE_KEY); // Ensure no conflict
+                        location.reload();
+                    });
                  }
               } catch(err) {
                  alert("Failed to import data: " + err.message);
@@ -1220,9 +1280,45 @@
 
     updateCategoryDropdown("expense");
     updateFormForType("expense");
-    recalcAccounts();
-    renderAll();
+    // Initial UI render with empty state to prevent FOUC
     showScreen("home");
+
+    async function initApp() {
+        // 1. Try Load from IDB
+        const loaded = await IDBStorage.load();
+
+        if (loaded) {
+            state = loaded;
+        } else {
+            // 2. Migration: Check localStorage
+            const localRaw = localStorage.getItem(STORAGE_KEY);
+            if (localRaw) {
+                try {
+                    const parsed = JSON.parse(localRaw);
+                    state = Object.assign(structuredClone(initialState), parsed);
+                    // Ensure deep structures exist
+                    for (const cat in state.categories) if (typeof state.categories[cat].budget === 'undefined') state.categories[cat].budget = 0;
+                    if (!state.reminderPayments) state.reminderPayments = {};
+                    if (!state.accountInitialBalances) state.accountInitialBalances = {};
+                    if (!state.accountDueDays) state.accountDueDays = {};
+
+                    // Save to IDB immediately
+                    await IDBStorage.save(state);
+                    // Clear localStorage to complete migration
+                    localStorage.removeItem(STORAGE_KEY);
+                    console.log("Migrated data from LocalStorage to IndexedDB.");
+                } catch (e) {
+                    console.error("Migration failed:", e);
+                }
+            }
+        }
+
+        // 3. Re-render with loaded data
+        recalcAccounts();
+        renderAll();
+    }
+
+    initApp();
 
     // Net Worth Tooltip Logic
     const netWorthTooltip = document.getElementById("netWorthTooltip");
