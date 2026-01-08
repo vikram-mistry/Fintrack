@@ -24,7 +24,7 @@ Fintrack Pro is a personal finance management application designed to help users
     - Visual representations of spending vs. income.
     - Category-wise spending breakdown.
 - **Data Persistence & Management**:
-    - All data is stored locally in your browser (LocalStorage).
+    - All data is stored locally in your browser (IndexedDB).
     - **Backup & Restore**: Export your entire data to a JSON file and import it back to sync across devices or keep backups.
     - **Reset**: Option to completely wipe data and start fresh.
     - **Archives**: Automatic monthly archiving of transactions to keep the active view clean.
@@ -63,6 +63,9 @@ Fintrack Pro is a personal finance management application designed to help users
 - `index.html`: The main entry point containing the application structure.
 - `style.css`: Contains custom styles and overrides.
 - `script.js`: Contains all the application logic.
+
+## Screenshot
+Coming soon...
 
 ## License
 
