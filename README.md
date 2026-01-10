@@ -65,49 +65,34 @@ Fintrack Pro is a personal finance management application designed to help users
 - `script.js`: Contains all the application logic.
 
 ## Screenshot
-Homescreen:
 <img width="590" height="1278" alt="Screenshot 2026-01-08 at 12 22 49 PM" src="https://github.com/user-attachments/assets/aa072de9-d966-4294-a88c-299f598af895" />
 
-Logs:
 <img width="590" height="1278" alt="IMG_7139" src="https://github.com/user-attachments/assets/d81cf2c0-8bd8-4b90-a9a5-ec237fc3ca70" />
 
-Budget:
 <img width="590" height="1278" alt="IMG_7138" src="https://github.com/user-attachments/assets/152fbe1c-b576-407d-adad-920102b221f2" />
 
-Accounts:
 <img width="590" height="1278" alt="IMG_7137" src="https://github.com/user-attachments/assets/7ce42d7f-b757-4bda-b192-b6cdb8f7c7cc" />
 
-Reminders (Due):
 <img width="590" height="1278" alt="IMG_7136" src="https://github.com/user-attachments/assets/273326cb-d8de-4477-a8dc-9c9d9a897091" />
 
-Settings (Theme, Category Management:
 <img width="590" height="1278" alt="IMG_7135" src="https://github.com/user-attachments/assets/7d9c5650-0388-4565-b6ba-51fa331300f3" />
 
-Transaction Archive & Data Management:
 <img width="590" height="1278" alt="IMG_7134" src="https://github.com/user-attachments/assets/de543851-9ae1-4d60-a151-6dc0febd6139" />
 
-Mask Mode:
 <img width="590" height="1278" alt="IMG_7133" src="https://github.com/user-attachments/assets/391ee71f-5b77-4ceb-baa2-100bcfb582aa" />
 
-Add Entry (Expense):
 <img width="590" height="1278" alt="IMG_7132" src="https://github.com/user-attachments/assets/f1fd5b08-2d04-4056-9979-54dfc1d8d0c2" />
 
-Add Entry (Transfer):
 <img width="590" height="1278" alt="IMG_7131" src="https://github.com/user-attachments/assets/643e4209-6c32-4bcc-9825-b8d98bbf73e9" />
 
-Categories:
 <img width="590" height="1278" alt="IMG_7130" src="https://github.com/user-attachments/assets/a5513312-0423-46f1-ae2b-4ee251c26b32" />
 
-Recurring Transaction:
 <img width="590" height="1278" alt="IMG_7129" src="https://github.com/user-attachments/assets/bb5dfe66-6eb4-44a8-9c8c-2da23051f230" />
 
-Light theme (Homepage):
 <img width="590" height="1278" alt="IMG_7128" src="https://github.com/user-attachments/assets/715659ba-4e02-4368-8485-9142403daf11" />
 
-Light theme (Add Entry->income):
 <img width="590" height="1278" alt="IMG_7127" src="https://github.com/user-attachments/assets/53583d3c-3d38-4bf5-88f8-da0979c88a07" />
 
-Light theme (Settings):
 <img width="590" height="1278" alt="IMG_7126" src="https://github.com/user-attachments/assets/27fbe501-c7db-4f6a-921b-784aee8c9bc8" />
 
 ## License
