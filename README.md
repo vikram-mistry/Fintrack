@@ -82,7 +82,7 @@
 
 #### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/vikram-mistry/Fintrack.git
+git clone https://github.com/vikram-mistry/Budget-Pro.git
 cd Fintrack
 ```
 
