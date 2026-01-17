@@ -1,0 +1,27 @@
+{
+  "name": "budget-pro",
+  "version": "1.0.0",
+  "description": "Budget Pro is a personal finance management application.",
+  "main": "script.js",
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp *.html *.css *.js *.png dist/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikram-mistry/Fintrack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vikram-mistry/Fintrack/issues"
+  },
+  "homepage": "https://github.com/vikram-mistry/Fintrack#readme",
+  "dependencies": {
+    "@capacitor/cli": "^8.0.1",
+    "@capacitor/core": "^8.0.1",
+    "@capacitor/ios": "^8.0.1"
+  }
+}

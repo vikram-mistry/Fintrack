@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content" />
   <title>Budget Pro - Expense Manager</title>
-  
+
   <!-- iOS Web App Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Budget Pro" />
   <meta name="theme-color" content="#020617" id="metaThemeColor" />
-  
+
   <!-- App Icon -->
   <link rel="apple-touch-icon" href="icon.png" />
   <link rel="icon" type="image/png" href="icon.png" />
-  
+
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="text-slate-100">
-  
+
   <!-- Blurred background -->
   <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
     <div class="absolute -top-32 -right-24 h-72 w-72 rounded-full bg-sky-500/30 blur-3xl"></div>
@@ -31,50 +35,66 @@
   </div>
 
   <!-- HEADER -->
-  <header class="flex-none px-5 flex items-center justify-between z-10 w-full max-w-md mx-auto" style="padding-top: max(12px, var(--safe-top)); padding-bottom: 8px;">
+  <header class="flex-none px-5 flex items-center justify-between z-10 w-full max-w-md mx-auto"
+    style="padding-top: max(12px, var(--safe-top)); padding-bottom: 8px;">
     <div>
       <h1 class="app-title text-xl font-bold tracking-tight">Budget Pro</h1>
       <p class="text-xs uppercase tracking-[0.15em] text-slate-400 mt-0.5">Welcome back</p>
     </div>
-    <button id="toggleMaskButton" class="relative h-10 w-10 rounded-full glass-soft flex items-center justify-center text-slate-100 border border-sky-400/40 shadow-lg transition-all active:scale-95">
-      <svg id="maskIconVisible" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-      <svg id="maskIconHidden" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" /></svg>
+    <button id="toggleMaskButton"
+      class="relative h-10 w-10 rounded-full glass-soft flex items-center justify-center text-slate-100 border border-sky-400/40 shadow-lg transition-all active:scale-95">
+      <svg id="maskIconVisible" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      <svg id="maskIconHidden" class="w-5 h-5 hidden" fill="none" stroke="currentColor" stroke-width="1.5"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
+      </svg>
     </button>
   </header>
 
   <!-- MAIN -->
   <main id="screenContainer" class="w-full max-w-md mx-auto px-4">
-    
+
     <!-- HOME -->
     <section data-screen="home" class="space-y-4">
       <div id="alertsContainer" class="hidden space-y-2">
-        <button id="alertsToggleBtn" class="w-full flex items-center justify-between glass-soft rounded-2xl px-4 py-3 text-xs text-slate-300">
-           <span id="alertsSummaryText">No alerts</span>
-           <span id="alertsToggleIcon" class="transform transition-transform">▼</span>
+        <button id="alertsToggleBtn"
+          class="w-full flex items-center justify-between glass-soft rounded-2xl px-4 py-3 text-xs text-slate-300">
+          <span id="alertsSummaryText">No alerts</span>
+          <span id="alertsToggleIcon" class="transform transition-transform">▼</span>
         </button>
         <div id="homeAlertsSection" class="space-y-2 hidden"></div>
       </div>
-      
+
       <div class="relative group">
-        <div class="absolute inset-0 blur-2xl opacity-60 bg-gradient-to-tr from-emerald-500/30 via-sky-500/30 to-indigo-500/40"></div>
+        <div
+          class="absolute inset-0 blur-2xl opacity-60 bg-gradient-to-tr from-emerald-500/30 via-sky-500/30 to-indigo-500/40">
+        </div>
         <div class="relative glass rounded-3xl p-4 pt-5 border border-slate-300/15">
           <div class="flex items-center justify-between mb-4">
             <div>
               <div class="flex items-center gap-2">
-                 <p class="text-[10px] uppercase tracking-[0.18em] text-slate-300/80 card-label">Net Worth</p>
-                 <div class="tooltip-container">
-                    <i id="netWorthInfoIcon" class="info-icon">ⓘ</i>
-                    <div id="netWorthTooltip" class="tooltip">
-                       Net Worth = Total Assets - Total Liabilities<br>
-                       <span class="text-[10px] text-slate-400">(Cash Flow excluded)</span>
-                    </div>
-                 </div>
+                <p class="text-[10px] uppercase tracking-[0.18em] text-slate-300/80 card-label">Net Worth</p>
+                <div class="tooltip-container">
+                  <i id="netWorthInfoIcon" class="info-icon">ⓘ</i>
+                  <div id="netWorthTooltip" class="tooltip">
+                    Net Worth = Total Assets - Total Liabilities<br>
+                    <span class="text-[10px] text-slate-400">(Cash Flow excluded)</span>
+                  </div>
+                </div>
               </div>
               <p id="netWorthDisplay" class="text-3xl font-semibold mt-1 tracking-tight amount-display">₹0.00</p>
             </div>
-            <div class="relative px-3 py-2 rounded-2xl glass-soft flex flex-col items-end gap-0.5 text-xs text-slate-100/90 border border-slate-100/20">
+            <div
+              class="relative px-3 py-2 rounded-2xl glass-soft flex flex-col items-end gap-0.5 text-xs text-slate-100/90 border border-slate-100/20">
               <div class="flex items-center gap-2">
-                <span class="inline-block h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)]"></span>
+                <span
+                  class="inline-block h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)]"></span>
                 <span id="monthLabel" class="card-label">Current Cycle</span>
               </div>
               <span id="dateCycleLabel" class="text-[10px] text-slate-400 card-subtext"></span>
@@ -85,21 +105,25 @@
             <div class="glass-soft rounded-2xl p-3 flex flex-col gap-1 border border-emerald-400/25">
               <div class="flex items-center justify-between text-[11px] text-emerald-200/90">
                 <span class="card-label">Income</span>
-                <span class="px-1.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-[10px] card-label">IN</span>
+                <span
+                  class="px-1.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-[10px] card-label">IN</span>
               </div>
               <p id="monthlyIncomeDisplay" class="text-lg font-semibold tracking-tight amount-display">₹0.00</p>
             </div>
             <div class="glass-soft rounded-2xl p-3 flex flex-col gap-1 border border-rose-400/25">
               <div class="flex items-center justify-between text-[11px] text-rose-200/90">
                 <span class="card-label">Spent</span>
-                <span class="px-1.5 py-0.5 rounded-full bg-rose-500/15 border border-rose-400/40 text-[10px] card-label">OUT</span>
+                <span
+                  class="px-1.5 py-0.5 rounded-full bg-rose-500/15 border border-rose-400/40 text-[10px] card-label">OUT</span>
               </div>
               <p id="monthlySpentDisplay" class="text-lg font-semibold tracking-tight amount-display">₹0.00</p>
             </div>
           </div>
 
           <div class="h-1.5 w-full rounded-full bg-slate-800/80 overflow-hidden mb-1.5">
-            <div id="burnRateBar" class="h-full w-2/5 bg-gradient-to-r from-emerald-400 via-sky-400 to-rose-400 rounded-full transition-all duration-500"></div>
+            <div id="burnRateBar"
+              class="h-full w-2/5 bg-gradient-to-r from-emerald-400 via-sky-400 to-rose-400 rounded-full transition-all duration-500">
+            </div>
           </div>
           <p id="burnRateLabel" class="text-[11px] text-slate-300/80 flex items-center justify-between card-subtext">
             <span>Healthy burn rate</span>
@@ -111,7 +135,9 @@
       <section class="mt-4">
         <div class="flex items-center justify-between mb-2.5">
           <h2 class="text-sm font-medium tracking-tight">Recent transactions</h2>
-          <button data-nav="logs" class="text-[11px] text-sky-300 hover:text-sky-200 transition-colors flex items-center gap-1">View all <span class="text-xs">›</span></button>
+          <button data-nav="logs"
+            class="text-[11px] text-sky-300 hover:text-sky-200 transition-colors flex items-center gap-1">View all <span
+              class="text-xs">›</span></button>
         </div>
         <div id="recentList" class="space-y-2"></div>
         <p id="emptyRecent" class="text-xs text-slate-400 mt-3 text-center hidden">No transactions yet.</p>
@@ -122,16 +148,20 @@
     <section data-screen="logs" class="hidden space-y-3 pb-16">
       <header class="flex items-center justify-between mt-1">
         <h2 class="text-base font-semibold">Logs</h2>
-        <button id="exportCSVBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-soft border border-sky-400/40 text-xs text-sky-300"><span>📥</span> <span>Export CSV</span></button>
+        <button id="exportCSVBtn"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-soft border border-sky-400/40 text-xs text-sky-300"><span>📥</span>
+          <span>Export CSV</span></button>
       </header>
       <div class="glass rounded-3xl p-3 mb-3 text-xs flex items-center gap-3">
-        <select id="logsFilterType" class="bg-slate-950/70 border border-slate-500/50 rounded-2xl px-2.5 py-2 outline-none text-xs text-slate-200">
+        <select id="logsFilterType"
+          class="bg-slate-950/70 border border-slate-500/50 rounded-2xl px-2.5 py-2 outline-none text-xs text-slate-200">
           <option value="all">All</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
           <option value="transfer">Transfer</option>
         </select>
-        <select id="logsFilterRange" class="bg-slate-950/70 border border-slate-500/50 rounded-2xl px-2.5 py-2 outline-none text-xs flex-1 text-slate-200">
+        <select id="logsFilterRange"
+          class="bg-slate-950/70 border border-slate-500/50 rounded-2xl px-2.5 py-2 outline-none text-xs flex-1 text-slate-200">
           <option value="month">This month</option>
           <option value="week">This week</option>
           <option value="all">All time</option>
@@ -142,7 +172,8 @@
 
       <!-- Floating Search Bar -->
       <div class="floating-search-container">
-        <input type="text" id="logsSearchInput" placeholder="Search logs (date, note, category...)" class="search-input" />
+        <input type="text" id="logsSearchInput" placeholder="Search logs (note, category, account, amount...)"
+          class="search-input" />
       </div>
     </section>
 
@@ -155,7 +186,8 @@
       <div class="glass rounded-3xl p-4 mb-3 text-sm">
         <div class="flex items-center justify-between mb-2">
           <p class="text-xs text-slate-300">Monthly budget overview</p>
-          <button id="editBudgetBtn" class="p-1.5 rounded-full hover:bg-slate-700/50 text-slate-400 hover:text-sky-300 transition-colors">✏️</button>
+          <button id="editBudgetBtn"
+            class="p-1.5 rounded-full hover:bg-slate-700/50 text-slate-400 hover:text-sky-300 transition-colors">✏️</button>
         </div>
         <div class="flex items-end justify-between mb-3">
           <div>
@@ -168,7 +200,9 @@
           </div>
         </div>
         <div class="h-2 rounded-full bg-slate-900/50 overflow-hidden mb-1">
-          <div id="budgetBar" class="h-full w-0 bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-400 transition-all duration-500"></div>
+          <div id="budgetBar"
+            class="h-full w-0 bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-400 transition-all duration-500">
+          </div>
         </div>
         <p id="budgetLabel" class="text-[11px] text-slate-400">0% of your budget used this month.</p>
       </div>
@@ -188,55 +222,66 @@
       <form id="entryForm" class="space-y-3 text-sm flex-1 overflow-y-auto pb-4">
         <div class="glass rounded-3xl p-4 space-y-3">
           <div class="flex gap-2 text-xs">
-            <button type="button" data-type="expense" class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-rose-400/60 bg-rose-500/20 text-rose-50 transition-all">Expense</button>
-            <button type="button" data-type="income" class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-slate-600/80 bg-slate-900/40 text-slate-200/80 transition-all">Income</button>
-            <button type="button" data-type="transfer" class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-slate-600/80 bg-slate-900/40 text-slate-200/80 transition-all">Transfer</button>
+            <button type="button" data-type="expense"
+              class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-rose-400/60 bg-rose-500/20 text-rose-50 transition-all">Expense</button>
+            <button type="button" data-type="income"
+              class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-slate-600/80 bg-slate-900/40 text-slate-200/80 transition-all">Income</button>
+            <button type="button" data-type="transfer"
+              class="typeToggle flex-1 rounded-2xl px-3 py-2 border border-slate-600/80 bg-slate-900/40 text-slate-200/80 transition-all">Transfer</button>
           </div>
 
           <div>
             <label class="text-xs text-slate-300 mb-1 block">Amount</label>
             <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
               <span class="text-slate-500 text-xs">₹</span>
-              <input id="amountInput" type="number" inputmode="decimal" step="0.01" placeholder="0.00" class="bg-transparent flex-1 outline-none text-sm text-slate-100" required />
+              <input id="amountInput" type="number" inputmode="decimal" step="0.01" placeholder="0.00"
+                class="bg-transparent flex-1 outline-none text-sm text-slate-100" required />
             </div>
           </div>
 
           <div id="categoryField">
             <label class="text-xs text-slate-300 mb-1 block">Category</label>
-            <select id="categoryInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+            <select id="categoryInput"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
 
           <div id="regularAccountField" class="grid grid-cols-2 gap-3">
             <div class="min-w-0">
               <label class="text-xs text-slate-300 mb-1 block">Account</label>
-              <select id="accountInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+              <select id="accountInput"
+                class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
             </div>
             <div class="min-w-0">
               <label class="text-xs text-slate-300 mb-1 block">Date</label>
-              <input id="dateInput" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200 min-w-0" />
+              <input id="dateInput" type="date"
+                class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200 min-w-0" />
             </div>
           </div>
-          
+
           <div id="transferFields" class="hidden space-y-3">
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="text-xs text-slate-300 mb-1 block">From Account</label>
-                <select id="fromAccountInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+                <select id="fromAccountInput"
+                  class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
               </div>
               <div>
                 <label class="text-xs text-slate-300 mb-1 block">To Account</label>
-                <select id="toAccountInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+                <select id="toAccountInput"
+                  class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
               </div>
             </div>
             <div>
               <label class="text-xs text-slate-300 mb-1 block">Date</label>
-              <input id="transferDateInput" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+              <input id="transferDateInput" type="date"
+                class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
             </div>
           </div>
 
           <div>
             <label class="text-xs text-slate-300 mb-1 block">Note</label>
-            <input id="noteInput" type="text" placeholder="Optional" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+            <input id="noteInput" type="text" placeholder="Optional"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
           </div>
 
           <label class="flex items-center gap-2 text-xs text-slate-300 mt-1">
@@ -248,7 +293,8 @@
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="text-xs text-slate-300 mb-1 block">Recurring Type</label>
-                <select id="recurringTypeInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+                <select id="recurringTypeInput"
+                  class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
                   <option value="monthly">Monthly</option>
                   <option value="weekly">Weekly</option>
                   <option value="yearly">Yearly</option>
@@ -256,13 +302,16 @@
               </div>
               <div>
                 <label class="text-xs text-slate-300 mb-1 block">Due Day of Month</label>
-                <input id="dueDayInput" type="number" min="1" max="31" placeholder="e.g., 5" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+                <input id="dueDayInput" type="number" min="1" max="31" placeholder="e.g., 5"
+                  class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
               </div>
             </div>
           </div>
         </div>
 
-        <button type="submit" class="w-full relative rounded-full py-3 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950 shadow-lg shadow-sky-500/40 active:scale-[0.985] transition-transform">Save entry</button>
+        <button type="submit"
+          class="w-full relative rounded-full py-3 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950 shadow-lg shadow-sky-500/40 active:scale-[0.985] transition-transform">Save
+          entry</button>
       </form>
     </section>
 
@@ -270,12 +319,14 @@
     <section data-screen="accounts" class="hidden space-y-3">
       <header class="flex items-center justify-between mt-1">
         <h2 class="text-base font-semibold">Accounts</h2>
-        <button id="addAccountBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-soft border border-sky-400/40 text-xs text-sky-300">
+        <button id="addAccountBtn"
+          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-soft border border-sky-400/40 text-xs text-sky-300">
           <span class="text-sm">+</span> <span>Add Account</span>
         </button>
       </header>
       <div id="accountsList" class="space-y-3 text-sm"></div>
-      <p id="emptyAccounts" class="text-xs text-slate-400 mt-3 text-center hidden">No accounts yet. Add one to get started.</p>
+      <p id="emptyAccounts" class="text-xs text-slate-400 mt-3 text-center hidden">No accounts yet. Add one to get
+        started.</p>
     </section>
 
     <!-- RECURRING -->
@@ -299,26 +350,30 @@
             <p class="text-sm">Appearance</p>
             <p id="themeLabel" class="text-[11px] text-slate-400">Dark mode with glass effects</p>
           </div>
-          <button id="themeToggleBtn" class="relative w-14 h-7 rounded-full bg-slate-800 border border-slate-600/70 transition-all duration-300 z-50">
-            <span id="themeToggleKnob" class="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-gradient-to-r from-slate-600 to-slate-700 shadow-md transition-all duration-300 flex items-center justify-center text-xs">🌙</span>
+          <button id="themeToggleBtn"
+            class="relative w-14 h-7 rounded-full bg-slate-800 border border-slate-600/70 transition-all duration-300 z-50">
+            <span id="themeToggleKnob"
+              class="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-gradient-to-r from-slate-600 to-slate-700 shadow-md transition-all duration-300 flex items-center justify-center text-xs">🌙</span>
           </button>
         </div>
         <div class="glass rounded-3xl p-3">
           <label class="text-xs text-slate-300 mb-2 block">Month Start Date</label>
           <div class="flex items-center gap-2">
-            <input id="monthStartDateInput" type="number" min="1" max="31" class="w-20 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+            <input id="monthStartDateInput" type="number" min="1" max="31"
+              class="w-20 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
             <span class="text-xs text-slate-400">day of month</span>
           </div>
         </div>
         <div class="glass rounded-3xl p-3">
           <div class="flex items-center justify-between mb-3">
-             <div>
-                <p class="text-sm font-medium">Categories</p>
-                <span class="text-[10px] text-slate-400">Manage categories & budgets</span>
-             </div>
-             <button id="addCategoryBtn" class="px-2 py-1 rounded-full glass-soft border border-sky-400/40 text-[10px] text-sky-300">
-                + Add
-             </button>
+            <div>
+              <p class="text-sm font-medium">Categories</p>
+              <span class="text-[10px] text-slate-400">Manage categories & budgets</span>
+            </div>
+            <button id="addCategoryBtn"
+              class="px-2 py-1 rounded-full glass-soft border border-sky-400/40 text-[10px] text-sky-300">
+              + Add
+            </button>
           </div>
           <div id="categoryBudgetsList" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
         </div>
@@ -358,17 +413,29 @@
   <!-- NAVIGATION -->
   <nav class="tab-glass flex items-center justify-around text-[10px] px-2 relative">
     <div id="navIndicator" class="nav-indicator"></div>
-    <button data-tab="home" class="tabButton flex flex-col items-center gap-0.5 text-sky-300 flex-1 relative z-10"><span class="text-xl">⌂</span> <span>Home</span></button>
-    <button data-tab="logs" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">☰</span> <span>Logs</span></button>
-    <button data-tab="budget" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">◎</span> <span>Budget</span></button>
+    <button data-tab="home" class="tabButton flex flex-col items-center gap-0.5 text-sky-300 flex-1 relative z-10"><span
+        class="text-xl">⌂</span> <span>Home</span></button>
+    <button data-tab="logs"
+      class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span
+        class="text-xl">☰</span> <span>Logs</span></button>
+    <button data-tab="budget"
+      class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span
+        class="text-xl">◎</span> <span>Budget</span></button>
     <div class="relative -mt-1 flex-1 flex justify-center z-20">
-      <button data-tab="add" class="tabButton relative neon-ring rounded-full h-14 w-14 flex items-center justify-center bg-slate-900 text-slate-100 border border-sky-400/70 shadow-xl shadow-sky-500/50">
+      <button data-tab="add"
+        class="tabButton relative neon-ring rounded-full h-14 w-14 flex items-center justify-center bg-slate-900 text-slate-100 border border-sky-400/70 shadow-xl shadow-sky-500/50">
         <span class="text-3xl leading-none mb-1">＋</span>
       </button>
     </div>
-    <button data-tab="accounts" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">⊞</span> <span>Accounts</span></button>
-    <button data-tab="recurring" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">∞</span> <span>Due</span></button>
-    <button data-tab="settings" class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span class="text-xl">⚙︎</span> <span>Settings</span></button>
+    <button data-tab="accounts"
+      class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span
+        class="text-xl">⊞</span> <span>Accounts</span></button>
+    <button data-tab="recurring"
+      class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span
+        class="text-xl">∞</span> <span>Due</span></button>
+    <button data-tab="settings"
+      class="tabButton flex flex-col items-center gap-0.5 text-slate-400 flex-1 relative z-10"><span
+        class="text-xl">⚙︎</span> <span>Settings</span></button>
   </nav>
 
   <!-- MODALS -->
@@ -380,7 +447,8 @@
       <form id="addAccountForm" class="space-y-3">
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Account Type</label>
-          <select id="newAccountType" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+          <select id="newAccountType"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
             <option value="bank">Bank Account</option>
             <option value="wallet">Wallet / Cash</option>
             <option value="credit">Credit Card</option>
@@ -390,22 +458,29 @@
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Account Name</label>
-          <input id="newAccountName" type="text" placeholder="e.g., HDFC Bank, Wallet" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200" required />
+          <input id="newAccountName" type="text" placeholder="e.g., HDFC Bank, Wallet"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200"
+            required />
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Initial Balance / Outstanding</label>
           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
             <span class="text-slate-500 text-xs">₹</span>
-            <input id="newAccountBalance" type="number" inputmode="decimal" step="0.01" placeholder="0.00" class="bg-transparent flex-1 outline-none text-sm text-slate-200" value="0" />
+            <input id="newAccountBalance" type="number" inputmode="decimal" step="0.01" placeholder="0.00"
+              class="bg-transparent flex-1 outline-none text-sm text-slate-200" value="0" />
           </div>
         </div>
         <div id="creditCardDueDateField" class="hidden">
           <label class="text-xs text-slate-300 mb-1 block">Payment Due Day (1-31)</label>
-          <input id="newAccountDueDay" type="number" min="1" max="31" placeholder="e.g., 15" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          <input id="newAccountDueDay" type="number" min="1" max="31" placeholder="e.g., 15"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
         </div>
         <div class="flex gap-3 pt-2">
-          <button type="button" id="cancelAddAccount" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-          <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Add Account</button>
+          <button type="button" id="cancelAddAccount"
+            class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+          <button type="submit"
+            class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Add
+            Account</button>
         </div>
       </form>
     </div>
@@ -419,7 +494,8 @@
         <input type="hidden" id="editAccountOldName" />
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Account Type</label>
-          <select id="editAccountType" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+          <select id="editAccountType"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
             <option value="bank">Bank Account</option>
             <option value="wallet">Wallet / Cash</option>
             <option value="credit">Credit Card</option>
@@ -429,22 +505,28 @@
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Account Name</label>
-          <input id="editAccountName" type="text" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200" required />
+          <input id="editAccountName" type="text"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200"
+            required />
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Initial Balance / Outstanding</label>
           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
             <span class="text-slate-500 text-xs">₹</span>
-            <input id="editAccountBalance" type="number" inputmode="decimal" step="0.01" class="bg-transparent flex-1 outline-none text-sm text-slate-200" />
+            <input id="editAccountBalance" type="number" inputmode="decimal" step="0.01"
+              class="bg-transparent flex-1 outline-none text-sm text-slate-200" />
           </div>
         </div>
         <div id="editCreditCardDueDateField" class="hidden">
           <label class="text-xs text-slate-300 mb-1 block">Payment Due Day (1-31)</label>
-          <input id="editAccountDueDay" type="number" min="1" max="31" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          <input id="editAccountDueDay" type="number" min="1" max="31"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
         </div>
         <div class="flex gap-3 pt-2">
-          <button type="button" id="cancelEditAccount" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-          <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
+          <button type="button" id="cancelEditAccount"
+            class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+          <button type="submit"
+            class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
         </div>
       </form>
     </div>
@@ -452,13 +534,15 @@
 
   <!-- Edit Transaction -->
   <div id="editTransactionModal" class="modal-overlay hidden">
-    <div class="glass modal-content w-full max-w-sm rounded-3xl p-5 border border-slate-300/20 max-h-[80vh] overflow-y-auto">
+    <div
+      class="glass modal-content w-full max-w-sm rounded-3xl p-5 border border-slate-300/20 max-h-[80vh] overflow-y-auto">
       <h3 class="text-lg font-semibold mb-4 text-slate-100">Edit Transaction</h3>
       <form id="editTransactionForm" class="space-y-3">
         <input type="hidden" id="editTxId" />
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Type</label>
-          <select id="editTxType" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+          <select id="editTxType"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
             <option value="expense">Expense</option>
             <option value="income">Income</option>
             <option value="transfer">Transfer</option>
@@ -468,40 +552,48 @@
           <label class="text-xs text-slate-300 mb-1 block">Amount</label>
           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
             <span class="text-slate-500 text-xs">₹</span>
-            <input id="editTxAmount" type="number" inputmode="decimal" step="0.01" class="bg-transparent flex-1 outline-none text-sm text-slate-200" required />
+            <input id="editTxAmount" type="number" inputmode="decimal" step="0.01"
+              class="bg-transparent flex-1 outline-none text-sm text-slate-200" required />
           </div>
         </div>
         <div id="editTxCategoryField">
           <label class="text-xs text-slate-300 mb-1 block">Category</label>
-          <select id="editTxCategory" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+          <select id="editTxCategory"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
         </div>
         <div id="editTxRegularAccountField" class="grid grid-cols-2 gap-3">
           <div class="min-w-0">
-             <label class="text-xs text-slate-300 mb-1 block">Account</label>
-             <select id="editTxAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+            <label class="text-xs text-slate-300 mb-1 block">Account</label>
+            <select id="editTxAccount"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
           <div class="min-w-0">
-             <label class="text-xs text-slate-300 mb-1 block">Date</label>
-             <input id="editTxDate" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200 min-w-0" />
+            <label class="text-xs text-slate-300 mb-1 block">Date</label>
+            <input id="editTxDate" type="date"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200 min-w-0" />
           </div>
         </div>
         <div id="editTxTransferFields" class="hidden space-y-3">
           <div>
             <label class="text-xs text-slate-300 mb-1 block">From Account</label>
-            <select id="editTxFromAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+            <select id="editTxFromAccount"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
           <div>
             <label class="text-xs text-slate-300 mb-1 block">To Account</label>
-            <select id="editTxToAccount" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
+            <select id="editTxToAccount"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200"></select>
           </div>
           <div>
             <label class="text-xs text-slate-300 mb-1 block">Date</label>
-            <input id="editTxTransferDate" type="date" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+            <input id="editTxTransferDate" type="date"
+              class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
           </div>
         </div>
         <div>
           <label class="text-xs text-slate-300 mb-1 block">Note</label>
-          <input id="editTxNote" type="text" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+          <input id="editTxNote" type="text"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
         </div>
         <div id="editTxRecurringContainer">
           <label class="flex items-center gap-2 text-xs text-slate-300 mt-1">
@@ -513,7 +605,8 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs text-slate-300 mb-1 block">Recurring Type</label>
-              <select id="editTxRecurringType" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+              <select id="editTxRecurringType"
+                class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
                 <option value="monthly">Monthly</option>
                 <option value="weekly">Weekly</option>
                 <option value="yearly">Yearly</option>
@@ -521,13 +614,16 @@
             </div>
             <div>
               <label class="text-xs text-slate-300 mb-1 block">Due Day of Month</label>
-              <input id="editTxDueDay" type="number" min="1" max="31" placeholder="e.g., 5" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
+              <input id="editTxDueDay" type="number" min="1" max="31" placeholder="e.g., 5"
+                class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200" />
             </div>
           </div>
         </div>
         <div class="flex gap-3 pt-2">
-          <button type="button" id="cancelEditTx" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-          <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
+          <button type="button" id="cancelEditTx"
+            class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+          <button type="submit"
+            class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
         </div>
       </form>
     </div>
@@ -542,12 +638,15 @@
           <label class="text-xs text-slate-300 mb-1 block">Monthly Budget Amount</label>
           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
             <span class="text-slate-500 text-xs">₹</span>
-            <input id="budgetAmountInput" type="number" inputmode="decimal" step="100" min="0" class="bg-transparent flex-1 outline-none text-sm text-slate-200" required />
+            <input id="budgetAmountInput" type="number" inputmode="decimal" step="100" min="0"
+              class="bg-transparent flex-1 outline-none text-sm text-slate-200" required />
           </div>
         </div>
         <div class="flex gap-3 pt-2">
-          <button type="button" id="cancelEditBudget" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-          <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
+          <button type="button" id="cancelEditBudget"
+            class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+          <button type="submit"
+            class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
         </div>
       </form>
     </div>
@@ -560,26 +659,32 @@
       <form id="categoryForm" class="space-y-3">
         <input type="hidden" id="categoryOldName" />
         <div>
-           <label class="text-xs text-slate-300 mb-1 block">Name</label>
-           <input id="categoryNameInput" type="text" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200" required />
+          <label class="text-xs text-slate-300 mb-1 block">Name</label>
+          <input id="categoryNameInput" type="text"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-sm outline-none text-slate-200"
+            required />
         </div>
         <div>
-           <label class="text-xs text-slate-300 mb-1 block">Type</label>
-           <select id="categoryTypeInput" class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
-              <option value="expense">Expense</option>
-              <option value="income">Income</option>
-           </select>
+          <label class="text-xs text-slate-300 mb-1 block">Type</label>
+          <select id="categoryTypeInput"
+            class="w-full rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2 text-xs outline-none text-slate-200">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
         </div>
         <div>
-           <label class="text-xs text-slate-300 mb-1 block">Monthly Budget Limit</label>
-           <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
-             <span class="text-slate-500 text-xs">₹</span>
-             <input id="categoryBudgetInput" type="number" step="100" class="bg-transparent flex-1 outline-none text-sm text-slate-200" value="0" />
-           </div>
+          <label class="text-xs text-slate-300 mb-1 block">Monthly Budget Limit</label>
+          <div class="flex items-center gap-2 rounded-2xl bg-slate-950/70 border border-slate-700/80 px-3 py-2">
+            <span class="text-slate-500 text-xs">₹</span>
+            <input id="categoryBudgetInput" type="number" step="100"
+              class="bg-transparent flex-1 outline-none text-sm text-slate-200" value="0" />
+          </div>
         </div>
         <div class="flex gap-3 pt-2">
-           <button type="button" id="cancelCategoryModal" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-           <button type="submit" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
+          <button type="button" id="cancelCategoryModal"
+            class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+          <button type="submit"
+            class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-sky-400 via-emerald-400 to-indigo-400 text-slate-950">Save</button>
         </div>
       </form>
     </div>
@@ -589,16 +694,20 @@
   <div id="deleteConfirmModal" class="modal-overlay hidden">
     <div class="glass modal-content w-full max-w-sm rounded-3xl p-5 border border-slate-300/20">
       <h3 class="text-lg font-semibold mb-2 text-slate-100">Delete Item</h3>
-      <p class="text-sm text-slate-400 mb-4">Are you sure you want to delete this item? This action cannot be undone.</p>
+      <p class="text-sm text-slate-400 mb-4">Are you sure you want to delete this item? This action cannot be undone.
+      </p>
       <input type="hidden" id="deleteItemId" />
       <input type="hidden" id="deleteItemType" />
       <div class="flex gap-3">
-        <button id="cancelDelete" class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
-        <button id="confirmDelete" class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-rose-500 to-rose-600 text-white shadow-lg shadow-rose-500/40">Delete</button>
+        <button id="cancelDelete"
+          class="flex-1 rounded-full py-2 text-sm font-medium border border-slate-600/80 text-slate-300 hover:bg-slate-800/50">Cancel</button>
+        <button id="confirmDelete"
+          class="flex-1 rounded-full py-2 text-sm font-medium bg-gradient-to-r from-rose-500 to-rose-600 text-white shadow-lg shadow-rose-500/40">Delete</button>
       </div>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
