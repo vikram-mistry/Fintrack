@@ -290,8 +290,18 @@ function syncWidgetData() {
 
     state.transactions.forEach(tx => {
       if (isInCurrentCycle(tx.date)) {
-        if (tx.type === 'expense') totalExpense += tx.amount;
+        // Exclude credit card expenses from total - they only add to liability
+        const isCC = state.accountTypes[tx.account] === 'credit';
+        if (tx.type === 'expense' && !isCC) totalExpense += tx.amount;
         if (tx.type === 'income') totalIncome += tx.amount;
+        // CC Settlement: Transfer FROM non-CC TO CC counts as expense
+        if (tx.type === 'transfer' && tx.fromAccount && tx.toAccount) {
+          const fromIsCC = state.accountTypes[tx.fromAccount] === 'credit';
+          const toIsCC = state.accountTypes[tx.toAccount] === 'credit';
+          if (!fromIsCC && toIsCC) {
+            totalExpense += tx.amount; // Paying CC from bank = expense
+          }
+        }
       }
     });
 
@@ -635,7 +645,19 @@ function renderHome() {
   state.transactions.forEach((tx) => {
     if (!isInCurrentCycle(tx.date)) return;
     if (tx.type === "income") monthlyIncome += tx.amount;
-    else if (tx.type === "expense") monthlySpent += tx.amount;
+    // Exclude credit card expenses from monthly spent - they only add to liability
+    else if (tx.type === "expense") {
+      const isCC = state.accountTypes[tx.account] === 'credit';
+      if (!isCC) monthlySpent += tx.amount;
+    }
+    // CC Settlement: Transfer FROM non-CC TO CC counts as expense (paying off CC bill)
+    else if (tx.type === "transfer" && tx.fromAccount && tx.toAccount) {
+      const fromIsCC = state.accountTypes[tx.fromAccount] === 'credit';
+      const toIsCC = state.accountTypes[tx.toAccount] === 'credit';
+      if (!fromIsCC && toIsCC) {
+        monthlySpent += tx.amount; // Paying CC from bank = expense
+      }
+    }
   });
 
   document.getElementById("monthlyIncomeDisplay").textContent = currency(monthlyIncome);

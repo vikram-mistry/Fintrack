@@ -9,7 +9,7 @@
     html {
       height: 100%;
       width: 100%;
-      overflow: hidden;f
+      overflow: hidden;
       -webkit-text-size-adjust: 100%;
     }
 
@@ -27,19 +27,24 @@
     }
 
     /* Input Zoom Fix */
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       font-size: 16px !important;
     }
 
     /* iOS Date Input Fix */
     input[type="date"] {
-      -webkit-appearance: none; /* Removes native iOS bubble styling */
+      -webkit-appearance: none;
+      /* Removes native iOS bubble styling */
       appearance: none;
       display: block;
       width: 100%;
       min-width: 0;
-      max-width: 100%; /* Prevents it from pushing outside the grid box */
-      box-sizing: border-box; /* Ensures padding doesn't add to width */
+      max-width: 100%;
+      /* Prevents it from pushing outside the grid box */
+      box-sizing: border-box;
+      /* Ensures padding doesn't add to width */
 
       /* Force height to match the 'Account' select box next to it */
       height: 42px;
@@ -51,7 +56,8 @@
       /* Ensure background matches your theme (since we removed appearance) */
       background-color: rgba(2, 6, 23, 0.7);
       color: #e2e8f0;
-      border-radius: 1rem; /* Matches rounded-2xl */
+      border-radius: 1rem;
+      /* Matches rounded-2xl */
     }
 
     /* Light mode override for the date input to ensure text is visible */
@@ -74,29 +80,34 @@
 
     /* Category List Styles */
     .category-row {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       padding: 8px 0;
-       border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
     }
+
     .category-row:last-child {
-       border-bottom: none;
+      border-bottom: none;
     }
+
     .category-row .actions {
-       display: flex;
-       gap: 8px;
+      display: flex;
+      gap: 8px;
     }
+
     .category-row button {
-       padding: 4px;
-       color: #94a3b8;
-       transition: color 0.2s;
+      padding: 4px;
+      color: #94a3b8;
+      transition: color 0.2s;
     }
+
     .category-row button:hover {
-       color: #38bdf8;
+      color: #38bdf8;
     }
+
     .category-row button.delete-btn:hover {
-       color: #f43f5e;
+      color: #f43f5e;
     }
 
     /* --- THEME STYLES --- */
@@ -143,7 +154,8 @@
       bottom: 0;
       /* Fix: Constrain width to match app */
       width: 100%;
-      max-width: 28rem; /* max-w-md */
+      max-width: 28rem;
+      /* max-w-md */
       left: 0;
       right: 0;
       margin: 0 auto;
@@ -156,41 +168,94 @@
     }
 
     /* --- LIGHT MODE VISIBILITY FIXES --- */
-    [data-theme="light"] { color-scheme: light; }
-    [data-theme="light"] .text-slate-100 { color: #1e293b !important; }
-    [data-theme="light"] .text-slate-200 { color: #334155 !important; }
-    [data-theme="light"] .text-slate-300 { color: #475569 !important; }
-    [data-theme="light"] .text-slate-400 { color: #64748b !important; }
-    [data-theme="light"] .text-slate-500 { color: #94a3b8 !important; }
+    [data-theme="light"] {
+      color-scheme: light;
+    }
+
+    [data-theme="light"] .text-slate-100 {
+      color: #1e293b !important;
+    }
+
+    [data-theme="light"] .text-slate-200 {
+      color: #334155 !important;
+    }
+
+    [data-theme="light"] .text-slate-300 {
+      color: #475569 !important;
+    }
+
+    [data-theme="light"] .text-slate-400 {
+      color: #64748b !important;
+    }
+
+    [data-theme="light"] .text-slate-500 {
+      color: #94a3b8 !important;
+    }
 
     /* Specific overrides for Net Worth Card & Alerts in Light Mode */
-    [data-theme="light"] .card-label { color: #475569 !important; } /* Darker grey */
-    [data-theme="light"] .card-subtext { color: #64748b !important; }
-    [data-theme="light"] .text-slate-300\/80 { color: #475569 !important; } /* Net worth label */
-    [data-theme="light"] .text-slate-100\/90 { color: #334155 !important; } /* Cycle text */
-    [data-theme="light"] .text-emerald-200 { color: #065f46 !important; } /* Alert text */
-    [data-theme="light"] .text-amber-200 { color: #92400e !important; }
-    [data-theme="light"] .text-rose-200 { color: #9f1239 !important; } /* CC Alert title */
+    [data-theme="light"] .card-label {
+      color: #475569 !important;
+    }
+
+    /* Darker grey */
+    [data-theme="light"] .card-subtext {
+      color: #64748b !important;
+    }
+
+    [data-theme="light"] .text-slate-300\/80 {
+      color: #475569 !important;
+    }
+
+    /* Net worth label */
+    [data-theme="light"] .text-slate-100\/90 {
+      color: #334155 !important;
+    }
+
+    /* Cycle text */
+    [data-theme="light"] .text-emerald-200 {
+      color: #065f46 !important;
+    }
+
+    /* Alert text */
+    [data-theme="light"] .text-amber-200 {
+      color: #92400e !important;
+    }
+
+    [data-theme="light"] .text-rose-200 {
+      color: #9f1239 !important;
+    }
+
+    /* CC Alert title */
 
     /* Tab Toggle Visibility in Light Mode */
     [data-theme="light"] .typeToggle {
-        color: #1e293b !important; /* Dark text for visibility */
-        border-color: #cbd5e1 !important;
+      color: #1e293b !important;
+      /* Dark text for visibility */
+      border-color: #cbd5e1 !important;
     }
+
     [data-theme="light"] .typeToggle.text-rose-50 {
-        color: #9f1239 !important; /* Dark Rose text for active Expense */
-        background-color: #ffe4e6 !important; /* Light Rose bg */
-        border-color: #fda4af !important;
+      color: #9f1239 !important;
+      /* Dark Rose text for active Expense */
+      background-color: #ffe4e6 !important;
+      /* Light Rose bg */
+      border-color: #fda4af !important;
     }
+
     [data-theme="light"] .typeToggle.text-emerald-50 {
-        color: #065f46 !important; /* Dark Emerald text for active Income */
-        background-color: #d1fae5 !important; /* Light Emerald bg */
-        border-color: #6ee7b7 !important;
+      color: #065f46 !important;
+      /* Dark Emerald text for active Income */
+      background-color: #d1fae5 !important;
+      /* Light Emerald bg */
+      border-color: #6ee7b7 !important;
     }
+
     [data-theme="light"] .typeToggle.text-sky-50 {
-        color: #075985 !important; /* Dark Sky text for active Transfer */
-        background-color: #e0f2fe !important; /* Light Sky bg */
-        border-color: #7dd3fc !important;
+      color: #075985 !important;
+      /* Dark Sky text for active Transfer */
+      background-color: #e0f2fe !important;
+      /* Light Sky bg */
+      border-color: #7dd3fc !important;
     }
 
     /* Input Fields in Light Mode */
@@ -216,15 +281,27 @@
     /* FAB Button in Light Mode */
     [data-theme="light"] .neon-ring {
       background-color: #ffffff !important;
-      color: #0ea5e9 !important; /* Sky-500 */
+      color: #0ea5e9 !important;
+      /* Sky-500 */
       border-color: #7dd3fc !important;
     }
 
     /* Colors */
-    [data-theme="light"] .text-emerald-300 { color: #059669 !important; }
-    [data-theme="light"] .text-rose-300 { color: #dc2626 !important; }
-    [data-theme="light"] .text-sky-300 { color: #0284c7 !important; }
-    [data-theme="light"] .text-amber-300 { color: #d97706 !important; }
+    [data-theme="light"] .text-emerald-300 {
+      color: #059669 !important;
+    }
+
+    [data-theme="light"] .text-rose-300 {
+      color: #dc2626 !important;
+    }
+
+    [data-theme="light"] .text-sky-300 {
+      color: #0284c7 !important;
+    }
+
+    [data-theme="light"] .text-amber-300 {
+      color: #d97706 !important;
+    }
 
     /* --- UTILITIES --- */
     .app-title {
@@ -256,14 +333,31 @@
       padding: 20px;
     }
 
-    .modal-overlay.hidden { display: none !important; }
+    .modal-overlay.hidden {
+      display: none !important;
+    }
 
     .modal-content {
       max-height: 85dvh;
       overflow-y: auto;
     }
 
-    .masked-amount { filter: blur(8px); user-select: none; }
+    /* Amount Masking with Smooth Transition */
+    .masked-amount {
+      filter: blur(8px);
+      user-select: none;
+      -webkit-filter: blur(8px);
+      transition: filter 0.3s ease, -webkit-filter 0.3s ease;
+      will-change: filter;
+    }
+
+    .amount-display {
+      transition: filter 0.3s ease, -webkit-filter 0.3s ease;
+      will-change: filter;
+      display: inline-block;
+      /* Ensures proper blur containment */
+    }
+
     /* --- LIQUID GLASS NAV & SEARCH --- */
 
     /* Sliding Glass Circle Indicator */
@@ -285,15 +379,19 @@
       transform: translateX(0);
 
       /* Keep your existing glass effects */
-      background: rgba(56, 189, 248, 0.15); /* Sky blue tint */
+      background: rgba(56, 189, 248, 0.15);
+      /* Sky blue tint */
       box-shadow: 0 0 15px rgba(56, 189, 248, 0.3), inset 0 0 5px rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(4px);
       border: 1px solid rgba(56, 189, 248, 0.2);
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smoother snap */
-      z-index: 0; /* Behind text (z-10) */
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      /* Smoother snap */
+      z-index: 0;
+      /* Behind text (z-10) */
       pointer-events: none;
       left: 0;
-      opacity: 0; /* Hidden initially until JS sets it */
+      opacity: 0;
+      /* Hidden initially until JS sets it */
     }
 
     [data-theme="light"] .nav-indicator {
@@ -304,136 +402,156 @@
 
     /* Floating Search Bar */
     .floating-search-container {
-       position: fixed;
-       bottom: calc(var(--nav-height) + 16px);
-       left: 50%;
-       transform: translateX(-50%);
-       width: calc(100% - 32px);
-       max-width: 26rem; /* slightly less than max-w-md */
-       z-index: 40;
+      position: fixed;
+      bottom: calc(var(--nav-height) + 16px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 26rem;
+      /* slightly less than max-w-md */
+      z-index: 40;
     }
 
     .search-input {
-       width: 100%;
-       padding: 12px 20px;
-       border-radius: 9999px;
-       background: rgba(15, 23, 42, 0.7);
-       backdrop-filter: blur(16px);
-       -webkit-backdrop-filter: blur(16px);
-       border: 1px solid rgba(148, 163, 184, 0.3);
-       color: #f1f5f9;
-       font-size: 14px;
-       outline: none;
-       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-       transition: all 0.3s ease;
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #f1f5f9;
+      font-size: 14px;
+      outline: none;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
     }
 
     .search-input:focus {
-       background: rgba(15, 23, 42, 0.85);
-       border-color: rgba(56, 189, 248, 0.5);
-       box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
+      background: rgba(15, 23, 42, 0.85);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 8px 32px rgba(56, 189, 248, 0.15);
     }
 
     [data-theme="light"] .search-input {
-       background: rgba(255, 255, 255, 0.75);
-       color: #0f172a;
-       border-color: rgba(148, 163, 184, 0.4);
-       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+      background: rgba(255, 255, 255, 0.75);
+      color: #0f172a;
+      border-color: rgba(148, 163, 184, 0.4);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
     }
 
     [data-theme="light"] .search-input:focus {
-       background: rgba(255, 255, 255, 0.95);
-       border-color: rgba(2, 132, 199, 0.4);
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(2, 132, 199, 0.4);
     }
 
     /* Data Management Buttons */
     .data-btn {
-       flex: 1;
-       padding: 10px;
-       border-radius: 12px;
-       font-size: 12px;
-       font-weight: 500;
-       text-align: center;
-       transition: all 0.2s;
-       border: 1px solid transparent;
+      flex: 1;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.2s;
+      border: 1px solid transparent;
     }
+
     .data-btn-import {
-       background: rgba(16, 185, 129, 0.15);
-       color: #34d399;
-       border-color: rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
     }
+
     .data-btn-export {
-       background: rgba(56, 189, 248, 0.15);
-       color: #38bdf8;
-       border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.3);
     }
+
     .data-btn-reset {
-       background: rgba(244, 63, 94, 0.15);
-       color: #fb7185;
-       border-color: rgba(244, 63, 94, 0.3);
+      background: rgba(244, 63, 94, 0.15);
+      color: #fb7185;
+      border-color: rgba(244, 63, 94, 0.3);
     }
 
-    [data-theme="light"] .data-btn-import { color: #059669; border-color: rgba(5, 150, 105, 0.3); background: rgba(5, 150, 105, 0.1); }
-    [data-theme="light"] .data-btn-export { color: #0284c7; border-color: rgba(2, 132, 199, 0.3); background: rgba(2, 132, 199, 0.1); }
-    [data-theme="light"] .data-btn-reset { color: #e11d48; border-color: rgba(225, 29, 72, 0.3); background: rgba(225, 29, 72, 0.1); }
+    [data-theme="light"] .data-btn-import {
+      color: #059669;
+      border-color: rgba(5, 150, 105, 0.3);
+      background: rgba(5, 150, 105, 0.1);
+    }
 
-/* Tooltip Styles */
-.tooltip-container {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
+    [data-theme="light"] .data-btn-export {
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.3);
+      background: rgba(2, 132, 199, 0.1);
+    }
 
-.info-icon {
-  margin-left: 4px;
-  font-size: 10px;
-  color: rgba(148, 163, 184, 0.6); /* slate-400/60 */
-  cursor: pointer;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1px solid rgba(148, 163, 184, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
+    [data-theme="light"] .data-btn-reset {
+      color: #e11d48;
+      border-color: rgba(225, 29, 72, 0.3);
+      background: rgba(225, 29, 72, 0.1);
+    }
 
-.info-icon:hover {
-  color: #38bdf8; /* sky-400 */
-  border-color: #38bdf8;
-  background: rgba(56, 189, 248, 0.1);
-}
+    /* Tooltip Styles */
+    .tooltip-container {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
 
-.tooltip {
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: rgba(15, 23, 42, 0.95);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  color: #e2e8f0;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  white-space: nowrap;
-  z-index: 50;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: opacity 0.2s, transform 0.2s;
-  pointer-events: none;
-}
+    .info-icon {
+      margin-left: 4px;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.6);
+      /* slate-400/60 */
+      cursor: pointer;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
 
-.tooltip.visible {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(-50%) translateY(8px);
-}
+    .info-icon:hover {
+      color: #38bdf8;
+      /* sky-400 */
+      border-color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+    }
 
-[data-theme="light"] .tooltip {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(148, 163, 184, 0.25);
-  color: #1e293b;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+    .tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: #e2e8f0;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      white-space: nowrap;
+      z-index: 50;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+    }
+
+    .tooltip.visible {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(8px);
+    }
+
+    [data-theme="light"] .tooltip {
+      background: rgba(255, 255, 255, 0.95);
+      border-color: rgba(148, 163, 184, 0.25);
+      color: #1e293b;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
